@@ -2,6 +2,9 @@
 
 import random
 import os
+
+#The following dictionaries are used to 1) create random genes and 2) Map gene sequence to tokens
+
 #array index mods to 1
 d1 = {'0':'  0', '1':'  1', '2':'  2', '3':'  3', '4':'  4', '5':'  5', '6':'  6', '7':'  7', '8':'  8', '9':'  9', 'r':'r()'}
 #2,7
@@ -15,23 +18,29 @@ d5 = {'=':'==', '!':'!=', 'L':'<=', 'G':'>=', '<':' <', '>':' >'}
 #11 (Not for mapping gene sequence, but used to randomize in the same way as the other 5)
 d6 = {'w':'w', 'u':'u', 'd':'d'}
 
-def translategene(astring): # Should return array of tokens. Need dictionary from John to complete
+
+# Takes in a gene sequence and returns an array of tokens with the opcount for one loop as the last token
+def translategene(astring):
 	newstring = ''
+        count = 0
 	for i, c in enumerate(astring):
 		j = i/15
 		k = i%15
 		if k == 0:
+                        count += 6
 			if j == 0:
 				newstring+='g'
 			if j > 0:
 				newstring+=';g'
 		elif k == 1:
-			newstring+=(';'+d1[c])#Check with Dan
+			newstring+=(';'+d1[c])
 		elif k in [2,7]:
 			newstring+=(';'+d2[c])
 		elif k in [3,5,8,10,12,14]:
 			newstring+=(';'+d3[c])
 		elif k in [4,9,13]:
+                        if c != 'N':
+                            count += 1
 			newstring+=(';'+d4[c])
 		elif k == 6:
 			if astring[i-4] == 'p':
@@ -45,16 +54,11 @@ def translategene(astring): # Should return array of tokens. Need dictionary fro
 			else:
 				newstring+=';]'
 			newstring+=(';'+c)
-	print newstring
-	return newstring
+	newstring += ';'+str(count)
+        tokens = newstring.split(';')
+	return tokens
 
-#include <cstdlib>
-#include "../whatever.h"
-#int i, v, S, count, Pressure;
-#int a[]=randomizer();
-#S = length of a[]
-#int main{
-#per gene
+#body should look as follows
 #do{
 #i=___; //1) 0-9 or r()
 #v=a[i];
@@ -69,30 +73,38 @@ def translategene(astring): # Should return array of tokens. Need dictionary fro
 #after genes finish
 #count += ops;
 #}while(not_sorted(a[])&& count <SelectivePressure);
-	
-def writebody(a_file, tok, num):
-        genesequence = ''
+
+def writeheader():
+    header = '#include "biosort.h"\n\nint count=0;\nextern int * a;\nextern int i;\nextern int count;\n'\
+    'int temp[16] = {5, 9, 3, 2, 6, 1, 4, 16, 12, 8, 7, 11, 10, 13, 15, 14};\n\nint main()\n{\na=temp;\n'
+    return header
+
+
+#Writes the do while loop for the .cpp programs (organisms)
+def writebody(organism, tok, num):
+        genesequence = writeheader()
+        length = len(tok)
+        counter = tok[length-1]
+        del tok[-1]
 	for j in range(num):
 		i = j*17
 		genesequence += '\ni='+tok[1+i]+';\nv=a[i];\nif(('+tok[2+i]+' '+tok[3+i]+' '+tok[4+i]+' '+tok[5+i]+\
 		'\n'+tok[6+i]+'%S)'+tok[7+i]+'\n('+tok[8+i]+' '+tok[9+i]+' '+tok[10+i]+' '+tok[11+i]+\
 		'\n'+tok[12+i]+'%S))\n{\n'+tok[13+i]+'(('+tok[14+i]+' '+tok[15+i]+' '+tok[16+i]+'\n'+\
-		')%S)}\n';
-        a_file.write('do{'+genesequence+'}while(!sorted(a[])&& count<Pressure)')
+                ')%S)}\n';
+        organism.write('do{'+genesequence+'count +='+counter+'}while(!sorted(a[])&& count<Pressure)\nreturn opcount;')
 	return
-	
+
+#Creates one file
 def writec(astring, foldernum):
         folder = 'Petri_Dish_'+str(foldernum)
         if not os.path.isdir(folder):
             os.makedirs(folder)
-	newfile = folder+'/organism.cpp'
-	a_file = open(newfile, 'w+')
-	newstring = translategene(astring) #Creates string of tokens out of gene sequence
-	tokens = newstring.split(';') #Creates array of tokens
+	filename = folder+'/organism.cpp'
+	organism = open(filename, 'w+')
+	tokens = translategene(astring) #Creates string of tokens out of gene sequence
 	num = len(tokens)/17 #Number of genes
-	print num
-	print tokens
-	writebody(a_file, tokens, num) #Writes the body of the c++ file given the tokens
+	writebody(organism, tokens, num) #Writes the body of the c++ file given the tokens
 	
 	return
 	
