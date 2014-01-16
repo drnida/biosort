@@ -1,13 +1,18 @@
 Eventually it'd be lovely if we could break the python code
-into 3 files:
+into 5 files:
     1) file i/o
-        -this would include all the template code and would be invoked
-         when a new gene needed to be created (rather than a point mutation)
-        -This would also handle populating c-files with the array to be sorted
+        -This would handle populating c-files with the array to be sorted
+        -This would also handle logging results out and handing opcounts off to
+        tournament operation - mav
     2) gene modification
         -specifically for single mutations and the algorithms that select
          what to mutate
     3) tournament operation
+    4) UI menu - mav
+        -For user input
+    5) Gene creation - mav
+        -this would include all the template code and would be invoked
+         when a new gene needed to be created (rather than a point mutation)
 -jws
 
 
@@ -39,7 +44,10 @@ require an instruction manual).
 
 Develop replacement algorithm for the tournament.  This includes:
     -How many ops should constitute a time-out for an organism.
+        - I liked the worst of the 3 best +20% -mav
     -Should the time-out ops change as winners are crowned?
     -Should the time-out ops == worst winners raw value?
+        - I think it should be based off worst winner in last generation's average or worst time -mav
     -Should any of this be specifiable at run-time?
+        - It might be best for the sake of keeping our variables constant if we only change it between gens -mav
 -jws
