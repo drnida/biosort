@@ -1,6 +1,7 @@
 # hey look a change
 
 import random
+import os
 #array index mods to 1
 d1 = {'0':'  0', '1':'  1', '2':'  2', '3':'  3', '4':'  4', '5':'  5', '6':'  6', '7':'  7', '8':'  8', '9':'  9', 'r':'r()'}
 #2,7
@@ -69,26 +70,29 @@ def translategene(astring): # Should return array of tokens. Need dictionary fro
 #count += ops;
 #}while(not_sorted(a[])&& count <SelectivePressure);
 	
-def writebody(file, tok, num):
-	file.write('do{')
+def writebody(a_file, tok, num):
+        genesequence = ''
 	for j in range(num):
 		i = j*17
-		genesequence = '\ni='+tok[1+i]+';\nv=a[i];\nif(('+tok[2+i]+' '+tok[3+i]+' '+tok[4+i]+' '+tok[5+i]+\
+		genesequence += '\ni='+tok[1+i]+';\nv=a[i];\nif(('+tok[2+i]+' '+tok[3+i]+' '+tok[4+i]+' '+tok[5+i]+\
 		'\n'+tok[6+i]+'%S)'+tok[7+i]+'\n('+tok[8+i]+' '+tok[9+i]+' '+tok[10+i]+' '+tok[11+i]+\
 		'\n'+tok[12+i]+'%S))\n{\n'+tok[13+i]+'(('+tok[14+i]+' '+tok[15+i]+' '+tok[16+i]+'\n'+\
-		')%S)\n';
-	file.write('}while(!sorted(a[])&& count<Pressure);
+		')%S)}\n';
+        a_file.write('do{'+genesequence+'}while(!sorted(a[])&& count<Pressure')
 	return
 	
 def writec(astring, foldernum):
-	newfile = 'Petri_Dish_'+str(foldernum)+'/organism.cpp'
-	file = open(newfile, 'w+')
+        folder = 'Petri_Dish_'+str(foldernum)
+        if not os.path.isdir(folder):
+            os.makedirs(folder)
+	newfile = folder+'/organism.cpp'
+	a_file = open(newfile, 'w+')
 	newstring = translategene(astring) #Creates string of tokens out of gene sequence
 	tokens = newstring.split(';') #Creates array of tokens
 	num = len(tokens)/17 #Number of genes
 	print num
 	print tokens
-	writebody(file, tokens, num) #Writes the body of the c++ file given the tokens
+	writebody(a_file, tokens, num) #Writes the body of the c++ file given the tokens
 	
 	return
 	
