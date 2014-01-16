@@ -37,10 +37,10 @@ Some must-haves:
 Some it'd-be-nices:
     Number of mutations per offspring (currently default == 1)
     Number of permament random per generation
-We should also consider how we want to select these parameters.  I
-feel like a basic menu is the simplest (command line arguments would
-require an instruction manual).
+I think rather than using a menu or command line arguments we should
+use a config file.  Thoughts?
 -jws
+
 
 Develop replacement algorithm for the tournament.  This includes:
     -How many ops should constitute a time-out for an organism.
