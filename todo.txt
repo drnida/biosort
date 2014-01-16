@@ -1,0 +1,45 @@
+Eventually it'd be lovely if we could break the python code
+into 3 files:
+    1) file i/o
+        -this would include all the template code and would be invoked
+         when a new gene needed to be created (rather than a point mutation)
+        -This would also handle populating c-files with the array to be sorted
+    2) gene modification
+        -specifically for single mutations and the algorithms that select
+         what to mutate
+    3) tournament operation
+-jws
+
+
+Point mutation needs to consider:
+    If a - + * / or % changes to an N the opcount for the file
+    needs to decrement by one.
+    If N changes to - + * / or % the opcount needs to increment.
+
+    If point mutation rolls up a 'g' it needs to figure out which one
+    and hand control to something else to decide whether to delete,
+    copy or generate a new gene.
+-jws
+
+
+We need to decide what we want to be able to change when we start the
+overall program 
+Some must-haves:
+    Runs per generation
+    Generations per simulation
+    Number of breeders per generation
+    Number of offspring per breeder
+Some it'd-be-nices:
+    Number of mutations per offspring (currently default == 1)
+    Number of permament random per generation
+We should also consider how we want to select these parameters.  I
+feel like a basic menu is the simplest (command line arguments would
+require an instruction manual).
+-jws
+
+Develop replacement algorithm for the tournament.  This includes:
+    -How many ops should constitute a time-out for an organism.
+    -Should the time-out ops change as winners are crowned?
+    -Should the time-out ops == worst winners raw value?
+    -Should any of this be specifiable at run-time?
+-jws
