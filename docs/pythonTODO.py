@@ -11,6 +11,14 @@ Opcutoff = 0; #number of ops before an organism is killed off
 #BO(opcount)g(genesequence)
 #O(opcount)g(genesequence)
 
+# Returns a list of numbers 0 through X in a random order
+def make_list(x):
+    mylist = list(xrange(x))
+    random.shuffle(mylist)
+    return mylist
+
+
+
 def selectcodon(genesequence):
 	length = len(genesequence)
 	random.randrange(0,length)
