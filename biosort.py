@@ -78,7 +78,7 @@ def writebody(a_file, tok, num):
 		'\n'+tok[6+i]+'%S)'+tok[7+i]+'\n('+tok[8+i]+' '+tok[9+i]+' '+tok[10+i]+' '+tok[11+i]+\
 		'\n'+tok[12+i]+'%S))\n{\n'+tok[13+i]+'(('+tok[14+i]+' '+tok[15+i]+' '+tok[16+i]+'\n'+\
 		')%S)}\n';
-        a_file.write('do{'+genesequence+'}while(!sorted(a[])&& count<Pressure')
+        a_file.write('do{'+genesequence+'}while(!sorted(a[])&& count<Pressure)')
 	return
 	
 def writec(astring, foldernum):
