@@ -3,7 +3,7 @@
 import random
 import os
 import subprocess
-from genecreate import roll4d6(), translategene(astring), howmany(num)
+import genecreate.py
 
 
 
@@ -24,44 +24,54 @@ from genecreate import roll4d6(), translategene(astring), howmany(num)
 #count += ops;
 #}while(not_sorted(a[])&& count <SelectivePressure);
 
-def writeheader():
-    header = '#include "biosort.h"\n\nlong long count=0;\nextern int * a;\nextern int i;\n'\
+def writeheader(genesequence):
+    header = '/*'+geneqequence+'*/\n#include "biosort.h"\nlong long Pressure = 100000000;\nlong long count=0;\nextern int * a;\nextern int i;\n'\
     'int temp[16] = {5, 9, 3, 2, 6, 1, 4, 16, 12, 8, 7, 11, 10, 13, 15, 14};\n\nlong long main()\n{\na=temp;\n'
     return header
 
 
 #Writes the do while loop for the .cpp programs (organisms)
-def writebody(organism, tok, num):
-        genesequence = writeheader()
+def writebody(organism, genesequence):
+        writeout = writeheader(genesequence)
+        tokens = translategene(genesequence)
+        num = len(tokens)/17
         length = len(tok)
         counter = tok[length-1]
         del tok[-1]
 	for j in range(num):
 		i = j*17
-		genesequence += '\ni='+tok[1+i]+';\nv=a[i];\nif(('+tok[2+i]+' '+tok[3+i]+' '+tok[4+i]+' '+tok[5+i]+\
+		writeout += 'do{\ni='+tok[1+i]+';\nv=a[i];\nif(('+tok[2+i]+' '+tok[3+i]+' '+tok[4+i]+' '+tok[5+i]+\
 		'\n'+tok[6+i]+'%S)'+tok[7+i]+'\n('+tok[8+i]+' '+tok[9+i]+' '+tok[10+i]+' '+tok[11+i]+\
 		'\n'+tok[12+i]+'%S))\n{\n'+tok[13+i]+'(('+tok[14+i]+' '+tok[15+i]+' '+tok[16+i]+'\n'+\
                 ')%S)}\n';
-        organism.write('do{'+genesequence+'count +='+counter+'}while(!sorted(a[])&& count<Pressure)\nreturn count;')
+        writeout +='count +='+counter+'}while(!sorted(a[])&& count<Pressure)\nreturn count;'
+        organism.write(writeout)
 	return
 
 #Creates one file
-def writec(astring, foldernum):
-        folder = 'Petri_Dish_'+str(foldernum)
+def writec(genesequence, foldernum):
+        folder = 'habitat/spec'+str(foldernum)
         if not os.path.isdir(folder):
             os.makedirs(folder)
 	filename = folder+'/organism.cpp'
 	organism = open(filename, 'w+')
-	tokens = translategene(astring) #Creates string of tokens out of gene sequence
-	num = len(tokens)/17 #Number of genes
-	writebody(organism, tokens, num) #Writes the body of the c++ file given the tokens
-	
+	writebody(organism, genesequence)
+	organism.close()
 	return
 
 def gen_begin(num):
     output = ''
-    for i <= num:
-        subprocess.call('g++ 
+    subprocess.call('g++ -c -o habitat/biosort.o c_code/biosort.cpp')
+    i = 1
+    opcount = 0
+    for i in range(num):
+        subprocess.call('g++ spec'+num+'/*.cpp ../biosort.o')
+        opcount = subprocess.call('./a.out')
+        organism = open('habitat/spec'+num+'/organism.cpp')
+        genesequence = organism.readline()
+        geneseqence = genesequence[2:-2]
+        print genesequence
+        print opcount
     #gen_end() to write out log file
 	
 	
@@ -69,3 +79,4 @@ def gen_begin(num):
 teststring = howmany(10)
 print teststring
 writec(teststring, 1)
+gen_begin(1)
