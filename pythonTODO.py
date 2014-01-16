@@ -1,4 +1,16 @@
 import os
+
+#Eventually it'd be lovely if we could break the python code
+#into 3 files:
+    #1) file i/o
+        #-this would include all the template code and would be invoked
+        # when a new gene needed to be created (rather than a point mutation)
+        #-This would also handle populating c-files with the array to be sorted
+    #2) gene modification
+        #-specifically for single mutations and the algorithms that select
+        # what to mutate
+    #3) tournament operation
+
 #Global Python Variables:
 Generation = 0;
 Opcutoff = 0;
