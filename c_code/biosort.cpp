@@ -1,6 +1,6 @@
 #include "biosort.h"
 
-extern int count;
+extern long long count;
 int * a;
 int i;
 static int random_index = 0;

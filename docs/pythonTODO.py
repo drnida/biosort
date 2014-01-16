@@ -2,8 +2,10 @@ import os
 
 
 #Global Python Variables:
-Generation = 0;
-Opcutoff = 0;
+Generation = 0; #generation number
+Opcutoff = 0; #number of ops before an organism is killed off
+
+
 
 #G(generation number)
 #BO(opcount)g(genesequence)
@@ -32,28 +34,6 @@ def logfile(afile, filepath, opcount)
 #Per run info
 def runlog():
 	
-
-
-def writeheader(afile, genesequence):
-	afile.write('/*'+genesequence+'*/\n') # Writes out the gene sequence to a header comment
-	afile.write('#include "../header.h"\n')
-	afile.write('int i, v, S, count;\n')
-	afile.write('int a[]={blah};\n')
-	afile.write('int main()\n{\n')
-	return
-
-	
-def writec(astring, foldernum): #TODO: Finish this
-	newfile = 'File'+foldernum+'/foo.cpp'
-	file = open(newfile, 'r+')
-	logfile(file, newfile)#Checks if file contains data, if so copies out gene sequence and clears file
-	writeheader(file, astring)#Writes the file header
-	newstring = translate(astring) #Creates string of tokens out of gene sequence
-	tokens = newstring.split(' ') #Creates array of tokens
-	num = len(tokens)%18 #Number of genes
-	writebody(file, tokens, num) #Writes the body of the c++ file given the tokens
-	writetail(file)#Writes out the end of the c++ file
-	return
 
 def pointmutate(file, offset, changeto, incoffset, incchange)#Should work to overwrite chars, can try r+b mode to write binary? TODO: Make a Run->Run version
 	file.seek(incoffset)
