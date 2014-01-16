@@ -1,0 +1,3 @@
+This file is a placeholder for the eventual subdirectories with the organisms
+This is also where the .o files generated from the c code will be placed
+-jws
