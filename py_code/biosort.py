@@ -45,7 +45,7 @@ def writebody(organism, genesequence):
 		'\n'+'%s'+tok[6+i]+')'+tok[7+i]+'\n('+tok[8+i]+' '+tok[9+i]+' '+tok[10+i]+' '+tok[11+i]+\
 		'\n'+'%s'+tok[12+i]+'))\n{\n'+tok[13+i]+'(('+tok[14+i]+' '+tok[15+i]+' '+tok[16+i]+'\n'+\
                 ')%s);}\n';
-        writeout +='count +='+counter+';}while(!is_sorted()&& count<Pressure);\ncout << count; \n//for(int j = 0; j < 10; j++){cout << a[i];}\nreturn 0;}'
+        writeout +='count +='+counter+';}while(!is_sorted()&& count<Pressure);\ncout << count << ", "; \nfor(int j = 0; j < 10; j++){cout << a[j] << ", ";}\nreturn 0;}'
         organism.write(writeout)
 	return
 
