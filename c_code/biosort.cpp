@@ -58,9 +58,12 @@ void u(int to_index)
 			j = s - 1;
 			count += 4;
 		}
-	    a[j--] = a[j - 1];
-	    count += 5;
-	}
+		else
+		{
+	        a[j--] = a[j - 1];
+	        count += 5;
+        }
+    }
 	a[j + 1] = temp;
 	count += 5;
 }
@@ -79,9 +82,12 @@ void d(int to_index)
 			j = 0;
 			count += 4;
 		}
-		a[j++] = a[j + 1];
-	    count += 5;
-	}
+		else
+		{
+		    a[j++] = a[j + 1];
+	        count += 5;
+        }
+    }
 	a[j - 1] = temp;
 	count += 5;
 }
@@ -104,6 +110,22 @@ int r()
 		++count;
 	}
 	return random_num[random_index++];
+}
+
+int R()
+{
+    int r_num;
+    do
+    {
+    	count += 2;
+	    if(random_index == 511)
+    	{
+	    	random_index = 0;
+		    ++count;
+    	}
+    	r_num = random_num[random_index++];
+    }while(!r_num);
+	return r_num;
 }
 
 bool is_sorted()
