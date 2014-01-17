@@ -78,6 +78,13 @@ def gen_begin(num):
 	
 	
 
+# Returns a list of numbers 0 through X in a random order
+# This is also in pythonTODO
+def make_list(x):
+    mylist = list(xrange(x))
+    random.shuffle(mylist)
+    return mylist
+
 teststring = howmany(10)
 print teststring
 writec(teststring, 1)
