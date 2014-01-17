@@ -25,7 +25,7 @@ from genecreate import howmany, translategene, roll4d6
 
 def writeheader(genesequence):
     header = '/*'+genesequence+'*/\n#include "../biosort.h"\nlong long Pressure = 1000000;\nextern int v;\nint count=0;\nextern int * a;\nextern int i;\n'\
-    'int temp[16] = {5, 9, 3, 2, 6, 1, 4, 16, 12, 8, 7, 11, 10, 13, 15, 14};\n\nint main()\n{\na=temp;\n'
+    'int temp[16] = {5, 9, 3, 2, 6, 1, 4, 8, 7, 10,};\n\nint main()\n{\na=temp;\n'
     return header
 
 
@@ -67,9 +67,10 @@ def gen_begin(num):
     i = 1
     opcount = 0
     for i in range(num):
-        subprocess.call('g++ habitat/spec'+str(num)+'/*.cpp habitat/biosort.o', shell = True)
-        opcount = subprocess.call('./a.out', shell = True)
-        organism = open('habitat/spec'+str(num)+'/organism.cpp')
+        speclocation = 'habitat/spec'+str(num)
+        subprocess.call('g++ '+speclocation+'/*.cpp habitat/biosort.o -o '+speclocation+'/organism.out', shell = True)
+        opcount = subprocess.call(speclocation+'/organism.out', shell = True)
+        organism = open(speclocation+'/organism.cpp')
         genesequence = organism.readline()
         geneseqence = genesequence[2:-2]
         print genesequence
