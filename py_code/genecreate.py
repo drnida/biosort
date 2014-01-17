@@ -15,7 +15,7 @@ d5 = {'=':'==', '!':'!=', 'L':'<=', 'G':'>=', '<':' <', '>':' >'}
 #11 (Not for mapping gene sequence, but used to randomize in the same way as the other 5)
 d6 = {'w':'w'}
 #This is a special case for 5, 10, and 14 that doesnt allow mod or divide by 0
-d7 = {'1':'  1', '2':'  2', '3':'  3', '4':'  4', '5':'  5', '6':'  6', '7':'  7', '8':'  8', '9':'  9', 'r':'r()', 'i':'  i', 'v':'  v'}
+d7 = {'1':'  1', '2':'  2', '3':'  3', '4':'  4', '5':'  5', '6':'  6', '7':'  7', '8':'  8', '9':'  9', 'R':'R()'}
 
 # Takes in a gene sequence and returns an array of tokens with the opcount for one loop as the last token
 def translategene(astring):
