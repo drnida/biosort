@@ -34,7 +34,9 @@ def translategene(astring):
 			newstring+=(';'+d1[c])
 		elif k in [2,7]:
 			newstring+=(';'+d2[c])
-		elif k in [3,5,8,10,12,14]:
+                elif k in [5,10,14]:
+                        newstring+=(';'+d7[c])
+		elif k in [3,8,12]:
 			newstring+=(';'+d3[c])
 		elif k in [4,9,13]:
                         if c != 'N':
@@ -58,7 +60,6 @@ def translategene(astring):
 
 def roll4d6():
 	genesequence = ''
-        nozero = False
 	for i in range(0, 15):
 		if i == 0:
 			genesequence += 'g'
@@ -69,16 +70,9 @@ def roll4d6():
 		elif i in [3,8,12]:
 			genesequence += random.choice(d3.keys())
                 elif i in [5,10,14]:
-                        if nozero == True:
-                            genesequence += random.choice(d7.keys())
-                            nozero = False
-                        else:
-                            genesequence += random.choice(d3.keys())
+                        genesequence += random.choice(d7.keys())
 		elif i in [4,9,13]:
-			c = random.choice(d4.keys())
-                        if c in ['/','%']:
-                            nozero = True
-                        genesequence += c
+			genesequence = random.choice(d4.keys())
 		elif i == 6:
 			genesequence += random.choice(d5.keys())
 		elif i == 11:
