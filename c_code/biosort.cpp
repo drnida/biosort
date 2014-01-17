@@ -1,5 +1,6 @@
 #include "biosort.h"
 
+int v;
 extern long long count;
 int * a;
 int i;
