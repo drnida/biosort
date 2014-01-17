@@ -24,7 +24,7 @@ from genecreate import howmany, translategene, roll4d6
 #}while(not_sorted(a[])&& count <SelectivePressure);
 
 def writeheader(genesequence):
-    header = '/*'+genesequence+'*/\n#include "../biosort.h"\nlong long Pressure = 1000000;\nextern int v;\nint count=0;\nextern int * a;\nextern int i;\n'\
+    header = '/*'+genesequence+'*/\n#include <iostream>\nusing namespace std;\n#include "../biosort.h"\nlong long Pressure = 1000000;\nextern int v;\nint count=0;\nextern int * a;\nextern int i;\n'\
     'int temp[10] = {5, 9, 3, 2, 6, 1, 4, 8, 7, 0};\n\nint main()\n{\na=temp;\n'
     return header
 
@@ -44,7 +44,7 @@ def writebody(organism, genesequence):
 		'\n'+tok[6+i]+'%s)'+tok[7+i]+'\n('+tok[8+i]+' '+tok[9+i]+' '+tok[10+i]+' '+tok[11+i]+\
 		'\n'+tok[12+i]+'%s))\n{\n'+tok[13+i]+'(('+tok[14+i]+' '+tok[15+i]+' '+tok[16+i]+'\n'+\
                 ')%s);}\n';
-        writeout +='count +='+counter+';}while(!is_sorted()&& count<Pressure);\nreturn count;}'
+        writeout +='count +='+counter+';}while(!is_sorted()&& count<Pressure);\ncout << count ;\nexit(count);}'
         organism.write(writeout)
 	return
 
@@ -68,8 +68,8 @@ def gen_begin(num):
     opcount = 0
     for i in range(num):
         speclocation = 'habitat/spec'+str(num)
-        subprocess.call('g++ '+speclocation+'/*.cpp habitat/biosort.o -o '+speclocation+'/organism.out', shell = True)
-        opcount = subprocess.call(speclocation+'/organism.out', shell = True)
+        subprocess.call('g++ '+speclocation+'/*.cpp habitat/biosort.o -o '+speclocation+'/organism.out -g', shell = True)
+        opcount = subprocess.call(speclocation+'/organism.out')
         organism = open(speclocation+'/organism.cpp')
         genesequence = organism.readline()
         geneseqence = genesequence[2:-2]
