@@ -41,10 +41,10 @@ def writebody(organism, genesequence):
         del tok[-1]
 	for j in range(num):
 		i = j*17
-		writeout += '\ni='+tok[1+i]+';\nv=a[i];\nif(('+tok[2+i]+' ('+tok[3+i]+' '+tok[4+i]+' '+tok[5+i]+\
-		'\n)'+'m()'+tok[6+i]+')'+tok[7+i]+'\n('+tok[8+i]+'( '+tok[9+i]+' '+tok[10+i]+' '+tok[11+i]+\
-		'\n)'+'m()'+tok[12+i]+'))\n{\n'+tok[13+i]+'(('+tok[14+i]+' '+tok[15+i]+' '+tok[16+i]+'\n'+\
-                ')m());}\n';
+		writeout += '\ni='+tok[1+i]+';\nv=a[i];\nif(('+tok[2+i]+' m('+tok[3+i]+' '+tok[4+i]+' '+tok[5+i]+\
+		'\n)'+tok[6+i]+')'+tok[7+i]+'\n('+tok[8+i]+' m('+tok[9+i]+' '+tok[10+i]+' '+tok[11+i]+\
+		'\n)'+tok[12+i]+'))\n{\n'+tok[13+i]+'(m('+tok[14+i]+' '+tok[15+i]+' '+tok[16+i]+'\n'+\
+                '));}\n';
         writeout +='count +='+counter+';}while(!is_sorted()&& count<Pressure);\ncout << count << ", "; \nfor(int j = 0; j < 10; j++){cout << a[j] << ", ";}\nreturn 0;}'
         organism.write(writeout)
 	return
