@@ -50,7 +50,7 @@ def writebody(organism, genesequence):
 
 #Creates one file
 def writec(genesequence, foldernum):
-        folder = 'habitat/spec'+str(foldernum)
+        folder = '../habitat/spec'+str(foldernum)
         if not os.path.isdir(folder):
             os.makedirs(folder)
 	filename = folder+'/organism.cpp'
@@ -61,13 +61,13 @@ def writec(genesequence, foldernum):
 
 def gen_begin(num):
     output = ''
-    subprocess.call('g++ -c -o habitat/biosort.o c_code/biosort.cpp')
+    subprocess.call('g++ -c -o ../habitat/biosort.o ../c_code/biosort.cpp')
     i = 1
     opcount = 0
     for i in range(num):
-        subprocess.call('g++ spec'+num+'/*.cpp ../biosort.o')
+        subprocess.call('g++ ../spec'+num+'/*.cpp ../biosort.o')
         opcount = subprocess.call('./a.out')
-        organism = open('habitat/spec'+num+'/organism.cpp')
+        organism = open('../habitat/spec'+num+'/organism.cpp')
         genesequence = organism.readline()
         geneseqence = genesequence[2:-2]
         print genesequence
