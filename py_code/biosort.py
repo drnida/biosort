@@ -25,7 +25,7 @@ from genecreate import howmany, translategene, roll4d6
 
 def writeheader(genesequence):
     header = '/*'+genesequence+'*/\n#include "../biosort.h"\nlong long Pressure = 1000000;\nextern int v;\nint count=0;\nextern int * a;\nextern int i;\n'\
-    'int temp[16] = {5, 9, 3, 2, 6, 1, 4, 8, 7, 10,};\n\nint main()\n{\na=temp;\n'
+    'int temp[16] = {5, 9, 3, 2, 6, 1, 4, 8, 7, 0};\n\nint main()\n{\na=temp;\n'
     return header
 
 
