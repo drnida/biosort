@@ -73,7 +73,7 @@ void d(int to_index)
 
 	while(j != to_index)
 	{
-		if(j == 9)
+		if(j == s - 1)
 		{
 			a[j] = a[0];
 			j = 0;
