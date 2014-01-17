@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#/usr/bin/env python
 import random
 import os
 import subprocess
@@ -63,7 +63,7 @@ def gen_begin(num):
     folder = os.getcwd()
     print folder
     output = ''
-    subprocess.call('g++ -c -o ./habitat/biosort.o ./c_code/biosort.cpp', shell = True)
+    subprocess.call('g++ -c -o ./habitat/biosort.o ./c_code/biosort.cpp -g', shell = True)
     i = 1
     opcount = 0
     for i in range(num):
