@@ -2,6 +2,7 @@
 import random
 import os
 import subprocess
+from subprocess import Popen, PIPE
 from genecreate import howmany, translategene, roll4d6 
 
 
@@ -69,12 +70,12 @@ def gen_begin(num):
     for i in range(num):
         speclocation = 'habitat/spec'+str(num)
         subprocess.call('g++ '+speclocation+'/*.cpp habitat/biosort.o -o '+speclocation+'/organism.out -g', shell = True)
-        opcount = subprocess.call(speclocation+'/organism.out')
+        opcount = subprocess.Popen(speclocation+'/organism.out',stdin = PIPE, stdout = PIPE, stderr = PIPE, bufsize = 1)
         organism = open(speclocation+'/organism.cpp')
         genesequence = organism.readline()
         geneseqence = genesequence[2:-2]
         print genesequence
-        print opcount
+        print opcount.stdout.read()
     #gen_end() to write out log file
 	
 	
