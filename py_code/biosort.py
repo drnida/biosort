@@ -88,6 +88,5 @@ def make_list(x):
     return mylist
 
 teststring = howmany(10)
-print teststring
 writec(teststring, 1)
 gen_begin(1)

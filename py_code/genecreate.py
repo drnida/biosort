@@ -77,7 +77,6 @@ def roll4d6():
 			genesequence += random.choice(d5.keys())
 		elif i == 11:
 			genesequence += random.choice(d6.keys())
-	print genesequence
         return genesequence
 
 
