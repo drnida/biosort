@@ -72,12 +72,13 @@ def roll4d6():
                 elif i in [5,10,14]:
                         genesequence += random.choice(d7.keys())
 		elif i in [4,9,13]:
-			genesequence = random.choice(d4.keys())
+			genesequence += random.choice(d4.keys())
 		elif i == 6:
 			genesequence += random.choice(d5.keys())
 		elif i == 11:
 			genesequence += random.choice(d6.keys())
-	return genesequence
+	print genesequence
+        return genesequence
 
 
 def howmany(num):
