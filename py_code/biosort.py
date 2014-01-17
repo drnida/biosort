@@ -25,7 +25,7 @@ from genecreate import howmany, translategene, roll4d6
 #}while(not_sorted(a[])&& count <SelectivePressure);
 
 def writeheader(genesequence):
-    header = '/*'+genesequence+'*/\n#include <iostream>\nusing namespace std;\n#include "../biosort.h"\nlong long Pressure = 1000000;\nextern int v;\nint count=0;\nextern int * a;\nextern int i;\n'\
+    header = '/*'+genesequence+'*/\n#include <iostream>\nusing namespace std;\n#include "../biosort.h"\nlong long Pressure = 10000000;\nextern int v;\nint count=0;\nextern int * a;\nextern int i;\n'\
     'int temp[10] = {5, 9, 3, 2, 6, 1, 4, 8, 7, 0};\n\nint main()\n{\na=temp;\n'
     return header
 
@@ -73,7 +73,7 @@ def gen_begin(num):
         opcount = subprocess.Popen(speclocation+'/organism.out',stdin = PIPE, stdout = PIPE, stderr = PIPE, bufsize = 1)
         organism = open(speclocation+'/organism.cpp')
         genesequence = organism.readline()
-        geneseqence = genesequence[2:-2]
+        genesequence = genesequence[2:-3]
         print genesequence
         print opcount.stdout.read()
     #gen_end() to write out log file
