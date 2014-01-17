@@ -1,3 +1,6 @@
+I like this location for this.  Makes it easy to modify -jws
+
+
 config.txt
 
 #Number of generations
