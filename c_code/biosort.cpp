@@ -58,11 +58,8 @@ void u(int to_index)
 			j = s - 1;
 			count += 4;
 		}
-		else
-		{
-		    a[j--] = a[j - 1];
-		    count += 5;
-		}
+	    a[j--] = a[j - 1];
+	    count += 5;
 	}
 	a[j + 1] = temp;
 	count += 5;
@@ -82,15 +79,21 @@ void d(int to_index)
 			j = 0;
 			count += 4;
 		}
-		else
-		{
-		    a[j++] = a[j + 1];
-		    count += 5;
-		}
+		a[j++] = a[j + 1];
+	    count += 5;
 	}
 	a[j - 1] = temp;
 	count += 5;
 }
+
+int m(int input)
+{
+    input %= s;
+    if(input < 0)
+        input += s;
+    return input;
+}
+
 
 int r()
 {
