@@ -1,7 +1,7 @@
 #include "biosort.h"
 
 int v;
-extern long long count;
+extern int count;
 int * a;
 int i;
 static int random_index = 0;
