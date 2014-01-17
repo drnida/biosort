@@ -1,0 +1,18 @@
+config.txt
+
+#Number of generations
+
+NUMGEN= 100
+
+#Runs per generation
+RUNGEN= 10
+
+#Number of breeders
+NUMBREED= 10
+
+#Number of offspring per breeder 
+OFFPERBREED= 10 
+
+#Number of mutations per gene
+MUTPERGENE= 10
+ 
