@@ -94,5 +94,5 @@ def calcoffset(genesequence):
 
 teststring = howmany(10)
 writec(teststring, 1)
-headeroffset = calcoffset(genesequence)
+headeroffset = calcoffset(teststring)
 gen_begin(1)
