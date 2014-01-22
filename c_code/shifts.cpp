@@ -22,7 +22,7 @@ int main()
     cout << "\nOriginal array: ";
     display();
 
-    d(to_index);
+    u(to_index);
 
     cout << "\nResulting array: ";
     display();
@@ -40,7 +40,7 @@ void display()
             cout << ",";
     }
 }
-
+/*
 void u(int to_index)
 {
 	int temp = a[to_index];
@@ -69,7 +69,7 @@ void u(int to_index)
 	count += 5;
 	display(); //DISPLAY
 }
-
+*/
 void d(int to_index)
 {
     if(i == to_index)
@@ -123,6 +123,44 @@ void d(int to_index)
         }
     }
 */
+    count += 5;
+}
+
+void u(int to_index)
+{
+    if(i == to_index)
+    {
+        ++count;
+        return;
+    }
+
+    int j = i;
+	int temp = a[j++];
+	
+	while(j != to_index)
+	{
+	    display(); //DISPLAY
+        if(j > s - 1)
+        {
+            a[s - 1] = a[0];
+            j = 0;
+        }
+	    else
+            a[j - 1] = a[j++];
+    }
+
+    display(); //DISPLAY
+    if(j > s - 1)
+    {
+        a[s - 1] = a[0];
+        j = 0;
+    }
+	else
+        a[j - 1] = a[j++];
+    display(); //DISPLAY
+    a[to_index] = temp;
+    display(); //DISPLAY
+
     count += 5;
 }
 
