@@ -87,6 +87,12 @@ def make_list(x):
     random.shuffle(mylist)
     return mylist
 
+def calcoffset(genesequence):
+    length = len(genesequence);
+    length = length + 5;
+    return length;
+
 teststring = howmany(10)
 writec(teststring, 1)
+headeroffset = calcoffset(genesequence)
 gen_begin(1)
