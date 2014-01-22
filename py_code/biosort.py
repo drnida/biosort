@@ -10,7 +10,7 @@ from genecreate import howmany, translategene, roll4d6
 
 #body should look as follows
 #do{
-#i=___; //1) 0-9 or r()
+#i=___ __ ___; //1) 0-9 or r() 2) maths 3) 1-9 or R()
 #v=a[i];
 #if((__ ___ __ ___//1) ( or a[ which sets 1 on next line 2) 0-9, r(), i, or v 3) *, /, -, % or // 4) 0-9, r(), i or v
 #_ %S)__ // 1) ) or ] defined by 1 of last line 2) logical op
@@ -35,15 +35,15 @@ def writebody(organism, genesequence):
         writeout = writeheader(genesequence)
         writeout += 'do{'
         tok = translategene(genesequence)
-        num = len(tok)/17
+        num = len(tok)/19
         length = len(tok)
         counter = tok[length-1]
         del tok[-1]
 	for j in range(num):
-		i = j*17
-		writeout += '\ni='+tok[1+i]+';\nv=a[i];\nif(('+tok[2+i]+' m('+tok[3+i]+' '+tok[4+i]+' '+tok[5+i]+\
-		'\n)'+tok[6+i]+')'+tok[7+i]+'\n('+tok[8+i]+' m('+tok[9+i]+' '+tok[10+i]+' '+tok[11+i]+\
-		'\n)'+tok[12+i]+'))\n{\n'+tok[13+i]+'(m('+tok[14+i]+' '+tok[15+i]+' '+tok[16+i]+'\n'+\
+		i = j*19
+		writeout += '\ni='+tok[1+i]+tok[2+i]+tok[3+i]+'\n;\nv=a[i];\nif(('+tok[4+i]+' m('+tok[5+i]+' '+tok[6+i]+' '+tok[7+i]+\
+		'\n)'+tok[8+i]+')'+tok[9+i]+'\n('+tok[10+i]+' m('+tok[11+i]+' '+tok[12+i]+' '+tok[13+i]+\
+		'\n)'+tok[14+i]+'))\n{\n'+tok[15+i]+'(m('+tok[16+i]+' '+tok[17+i]+' '+tok[18+i]+'\n'+\
                 '));}\n';
         writeout +='count +='+counter+';}while(!is_sorted()&& count<Pressure);\ncout << count << ", "; \nfor(int j = 0; j < 10; j++){cout << a[j] << ", ";}\nreturn 0;}'
         organism.write(writeout)
