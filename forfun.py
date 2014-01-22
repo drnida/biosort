@@ -6,7 +6,7 @@ import subprocess
 fail = 0
 sort = 0
 
-for x in range(0,1000):
+for x in range(0,100):
     output = subprocess.check_output("python py_code/biosort.py", shell=True)
     for line in output.split('\n'):
         if ',' in line:
