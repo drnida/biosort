@@ -6,8 +6,6 @@ from subprocess import Popen, PIPE
 from genecreate import howmany, translategene, roll4d6 
 
 
-#The byte offset in the file for each TOKEN (not gene sequence array)
-offset = {1:0, 2:3, 3:5, 4:24, 5:28, 6:31, 7:33, 8:38, 9:40, 10:44, 11:48, 12:51, 13:53, 14:58 , 15:64, 16:68, 17:71, 18:73}
 
 
 #body should look as follows
@@ -43,11 +41,11 @@ def writebody(organism, genesequence):
         del tok[-1]
 	for j in range(num):
 		i = j*19
-		writeout += '\ni=m('+tok[1+i]+tok[2+i]+tok[3+i]+'\n);\nv=a[i];\nif(('+tok[4+i]+'m('+tok[5+i]+tok[6+i]+tok[7+i]+\
-		'\n)'+tok[8+i]+')'+tok[9+i]+'\n('+tok[10+i]+'m('+tok[11+i]+tok[12+i]+tok[13+i]+\
-		'\n)'+tok[14+i]+'))\n{\n'+tok[15+i]+'(m('+tok[16+i]+tok[17+i]+tok[18+i]+'\n'+\
+		writeout += '\ni=m('+tok[1+i]+tok[2+i]+tok[3+i]+'\n);\nv=a[i];\nif(('+tok[4+i]+' m('+tok[5+i]+' '+tok[6+i]+' '+tok[7+i]+\
+		'\n)'+tok[8+i]+')'+tok[9+i]+'\n('+tok[10+i]+' m('+tok[11+i]+' '+tok[12+i]+' '+tok[13+i]+\
+		'\n)'+tok[14+i]+'))\n{\n'+tok[15+i]+'(m('+tok[16+i]+' '+tok[17+i]+' '+tok[18+i]+'\n'+\
                 '));}\n';
-        writeout +='count +='+counter+';}while(!is_sorted()&&count<Pressure);\ncout << count << ", "; \nfor(int j = 0; j < 10; j++){cout << a[j] << ", ";}\nreturn 0;}'
+        writeout +='count +='+counter+';}while(!is_sorted()&& count<Pressure);\ncout << count << ", "; \nfor(int j = 0; j < 10; j++){cout << a[j] << ", ";}\nreturn 0;}'
         organism.write(writeout)
 	return
 
@@ -62,25 +60,58 @@ def writec(genesequence, foldernum):
 	organism.close()
 	return
 
-def gen_begin(num):
+
+def gen_begin(num_organisms, organism_run_num):
     folder = os.getcwd()
     print folder
     output = ''
     subprocess.call('g++ -c -o ./habitat/biosort.o ./c_code/biosort.cpp -g', shell = True)
+    
+    # Variables for the loops
     i = 1
-    opcount = 0
-    for i in range(num):
-        speclocation = 'habitat/spec'+str(num)
-        subprocess.call('g++ '+speclocation+'/*.cpp habitat/biosort.o -o '+speclocation+'/organism.out -g', shell = True)
-        opcount = subprocess.Popen(speclocation+'/organism.out',stdin = PIPE, stdout = PIPE, stderr = PIPE, bufsize = 1)
-        organism = open(speclocation+'/organism.cpp')
-        genesequence = organism.readline()
-        genesequence = genesequence[2:-3]
-        print genesequence
-        print opcount.stdout.read()
+    j = 1
+    
+    # Runs the loop however many number of organisms is specified
+    for i in range(num_organisms):
+	# Variables to track information on organism runs
+	opcount_counter = 0
+	total_opcount = 0
+	genesequence = ''
+	
+	# Runs an organism however many times we want
+	for j in range(organism_run_num):
+	    speclocation = 'habitat/spec'+str(i)
+	    
+	    if not os.path.exists(speclocation):
+		os.makedirs(speclocation)
+	    
+	    subprocess.call('g++ ' + speclocation + '/*.cpp habitat/biosort.o -o ' + speclocation + '/organism.out -g', shell = True)
+	    opcount = subprocess.Popen(speclocation + '/organism.out',stdin = PIPE, stdout = PIPE, stderr = PIPE, bufsize = 1)
+	    organism = open(speclocation+'/organism.cpp')
+	    genesequence = organism.readline()
+	    genesequence = genesequence[2:-3]
+	    
+	    # Getting opcount and adding to total
+	    opcount_counter = opcount.stdout.read()
+	    total_opcount += opcount_counter
+	    
+	    print opcount
+	
+	# Calculating mean number of ops
+	mean_opcount = total_opcount / organism_run_num
+	
+	# Adding organism to log file
+	add_organism_log(folder, genesequence, mean_opcount)
     #gen_end() to write out log file
-	
-	
+
+
+# Adds an organism's results to log file. The log file is in the current working
+# directory that was found in the "gen_begin" method.
+def add_organism_log(folder, genes, ops):
+    log_file = folder + 'log.txt'
+    log = open(log_file, 'a')
+    log.write(genes + "\t" + ops + "\n")
+
 
 # Returns a list of numbers 0 through X in a random order
 # This is also in pythonTODO
@@ -89,20 +120,13 @@ def make_list(x):
     random.shuffle(mylist)
     return mylist
 
-#Calculates the byte offset from the beginning of the cpp file to when the first mutable token occurs
-def calcheaderoffset(dirlocation, numlines):
-    organism = open(dirlocation, 'r');
-    length = 0
-    for i in range(numlines):
-        length += len(organism.readline()) 
-    return length+5;
 
-#87 is the byte offset from token 1 in one gene to the token 1 in the next
-
-
+def calcoffset(genesequence):
+    length = len(genesequence);
+    length = length + 5;
+    return length;
 
 teststring = howmany(10)
 writec(teststring, 1)
-headeroffset = calcheaderoffset('./habitat/spec1/organism.cpp',15)
-print headeroffset
-gen_begin(1)
+headeroffset = calcoffset(teststring)
+gen_begin(5, 5)
