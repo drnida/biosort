@@ -95,6 +95,7 @@ def gen_begin(num_organisms, organism_run_num):
 	    opcount_counter = opcount.stdout.read()
 	    total_opcount += opcount_counter
 	    
+	    opcount.terminate()
 	    print opcount
 	
 	# Calculating mean number of ops
@@ -111,6 +112,7 @@ def add_organism_log(folder, genes, ops):
     log_file = folder + 'log.txt'
     log = open(log_file, 'a')
     log.write(genes + "\t" + ops + "\n")
+    log.close()
 
 
 # Returns a list of numbers 0 through X in a random order
