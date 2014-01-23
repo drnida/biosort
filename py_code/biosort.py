@@ -6,6 +6,8 @@ from subprocess import Popen, PIPE
 from genecreate import howmany, translategene, roll4d6 
 
 
+#The byte offset in the file for each TOKEN (not gene sequence array)
+offset = {1:0, 2:3, 3:5, 4:24, 5:28, 6:31, 7:33, 8:38, 9:40, 10:44, 11:48, 12:51, 13:53, 14:58 , 15:64, 16:68, 17:71, 18:73}
 
 
 #body should look as follows
@@ -41,11 +43,11 @@ def writebody(organism, genesequence):
         del tok[-1]
 	for j in range(num):
 		i = j*19
-		writeout += '\ni=m('+tok[1+i]+tok[2+i]+tok[3+i]+'\n);\nv=a[i];\nif(('+tok[4+i]+' m('+tok[5+i]+' '+tok[6+i]+' '+tok[7+i]+\
-		'\n)'+tok[8+i]+')'+tok[9+i]+'\n('+tok[10+i]+' m('+tok[11+i]+' '+tok[12+i]+' '+tok[13+i]+\
-		'\n)'+tok[14+i]+'))\n{\n'+tok[15+i]+'(m('+tok[16+i]+' '+tok[17+i]+' '+tok[18+i]+'\n'+\
+		writeout += '\ni=m('+tok[1+i]+tok[2+i]+tok[3+i]+'\n);\nv=a[i];\nif(('+tok[4+i]+'m('+tok[5+i]+tok[6+i]+tok[7+i]+\
+		'\n)'+tok[8+i]+')'+tok[9+i]+'\n('+tok[10+i]+'m('+tok[11+i]+tok[12+i]+tok[13+i]+\
+		'\n)'+tok[14+i]+'))\n{\n'+tok[15+i]+'(m('+tok[16+i]+tok[17+i]+tok[18+i]+'\n'+\
                 '));}\n';
-        writeout +='count +='+counter+';}while(!is_sorted()&& count<Pressure);\ncout << count << ", "; \nfor(int j = 0; j < 10; j++){cout << a[j] << ", ";}\nreturn 0;}'
+        writeout +='count +='+counter+';}while(!is_sorted()&&count<Pressure);\ncout << count << ", "; \nfor(int j = 0; j < 10; j++){cout << a[j] << ", ";}\nreturn 0;}'
         organism.write(writeout)
 	return
 
@@ -87,12 +89,20 @@ def make_list(x):
     random.shuffle(mylist)
     return mylist
 
-def calcoffset(genesequence):
-    length = len(genesequence);
-    length = length + 5;
-    return length;
+#Calculates the byte offset from the beginning of the cpp file to when the first mutable token occurs
+def calcheaderoffset(dirlocation, numlines):
+    organism = open(dirlocation, 'r');
+    length = 0
+    for i in range(numlines):
+        length += len(organism.readline()) 
+    return length+5;
+
+#87 is the byte offset from token 1 in one gene to the token 1 in the next
+
+
 
 teststring = howmany(10)
 writec(teststring, 1)
-headeroffset = calcoffset(teststring)
+headeroffset = calcheaderoffset('./habitat/spec1/organism.cpp',15)
+print headeroffset
 gen_begin(1)
