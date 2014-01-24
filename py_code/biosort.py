@@ -1,11 +1,11 @@
 #/usr/bin/env python 
-import random 
+ 
 import os 
 import shlex 
-from subprocess import Popen, PIPE 
 from genecreate import makegene
 from rungen import make_list 
- 
+from rungene import testgene
+
 offset = {1:0, 2:3, 3:5, 4:24, 5:28, 6:31, 7:33, 8:38, 9:40, 10:44, 11:48, 12:51, 13:53, 14:58 , 15:64, 16:68, 17:71, 18:73}
  
  
@@ -50,9 +50,11 @@ def setupgen(num_organisms):
 # This will take in a class object containin the environment parameters
 def Start(env):
     ops = 0
-    while ops not in (1, env.pressure)
-        ops = testgene("../habitat/breeder1", makegene(env.maxgenes), env.runs)
+    while ops not in (1, env.pressure):
+        arraylist = []
+        for i in range(env.runs):
+            arraylist.append(make_list(env.arraysize))
+        ops = testgene("../habitat/breeder1", makegene(env.maxgenes), arraylist, env)
 
  
-setupgen(5) 
-gen_begin(5, 5) 
+
