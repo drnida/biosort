@@ -2,10 +2,15 @@ from writetoc import writec
 from subprocess import Popen, PIPE 
 import subprocess
 
+
+#Imporatnt, next step is to separate this up into 2 functions
+#One to set up the file and compile it
+#The other to run it
+#This is so that we can run a setup loop in rungen and then a test loop
+#After that set up the loops in rungen and create a system to tell if they shoul be randomized or mutated from another organism
 def testgene(folder, genesequence, arraylist, env):
     writec(folder, genesequence, env.pressure)
 
-    subprocess.call('g++ -c -o ./habitat/biosort.o ./c_code/biosort.cpp -g', shell = True) 
     opcount_counter = 0 
     total_opcount = 0 
     genesequence = '' 

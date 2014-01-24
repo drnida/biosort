@@ -1,6 +1,4 @@
-import os
-import random
-import subprocess 
+import os 
 
 def make_list(x): 
     mylist = list(xrange(x)) 
@@ -11,17 +9,15 @@ def make_list(x):
 
 def gen_begin(env, generation):  
     output = '' 
-    subprocess.call('g++ -c -o ./habitat/biosort.o ./c_code/biosort.cpp -g', shell = True) 
      
-    # Variables for the loops 
+    # Variable for the loop 
     i = 1 
     opcount = 0 
     #gen_end() to write out log file 
-    j = 1 
      
     # Runs the loop however many number of organisms is specified 
-    for i in range(1, num_organisms+1): 
-	# Variables to track information on organism runs 
+    for i in range(1, env.breeders+1): 
+	testgene("./habitat/breeder"+i, 
 	
         # Grabbing the gene sequence 
         organism = open(speclocation+'/organism.cpp') 

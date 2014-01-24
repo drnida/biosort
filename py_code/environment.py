@@ -2,6 +2,7 @@
 
 import ConfigParser
 import os
+import subprocess
 
 class Environment:
     def __init__(self, ge, ru, ra, br, ki, mu, ad, pr, ma, ar, pe, na):
@@ -56,6 +57,8 @@ def CreateEnvironment():
 
     if not os.path.isdir('./habitat'):
         os.mkdir('./habitat')
+
+    subprocess.call('g++ -c -o ./habitat/biosort.o ./c_code/biosort.cpp -g', shell = True) 
 
     for x in range(0, num_breeders):
         try:
