@@ -2,8 +2,10 @@
 import random
 import os
 import subprocess
+import shlex
 from subprocess import Popen, PIPE
 from genecreate import howmany, translategene, roll4d6 
+
 
 
 
@@ -25,8 +27,8 @@ from genecreate import howmany, translategene, roll4d6
 #}while(not_sorted(a[])&& count <SelectivePressure);
 
 def writeheader(genesequence):
-    header = '/*'+genesequence+'*/\n#include <iostream>\nusing namespace std;\n#include "../biosort.h"\nlong long Pressure = 10000000;\nextern int v;\nint count=0;\nextern int * a;\nextern int i;\n'\
-    'int temp[10] = {5, 9, 3, 2, 6, 1, 4, 8, 7, 0};\n\nint main()\n{\na=temp;\n'
+    header = '/*'+genesequence+'*/\n#include <iostream>\nusing namespace std;\n#include "../biosort.h"\nlong long Pressure = 10000000;\nextern int v;\nint count=0;\nint * a;\nextern int i;\n'\
+    'int temp[10] = {5, 9, 3, 2, 6, 1, 4, 8, 7, 0};\n\nint main(int argc,char ** argv)\n{\ns=argc-1;\na=new int[s];\nbuild(argv);'
     return header
 
 
@@ -41,11 +43,11 @@ def writebody(organism, genesequence):
         del tok[-1]
 	for j in range(num):
 		i = j*19
-		writeout += '\ni='+tok[1+i]+tok[2+i]+tok[3+i]+'\n;\nv=a[i];\nif(('+tok[4+i]+' m('+tok[5+i]+' '+tok[6+i]+' '+tok[7+i]+\
+		writeout += '\ni=m('+tok[1+i]+tok[2+i]+tok[3+i]+'\n);\nv=a[i];\nif(('+tok[4+i]+' m('+tok[5+i]+' '+tok[6+i]+' '+tok[7+i]+\
 		'\n)'+tok[8+i]+')'+tok[9+i]+'\n('+tok[10+i]+' m('+tok[11+i]+' '+tok[12+i]+' '+tok[13+i]+\
 		'\n)'+tok[14+i]+'))\n{\n'+tok[15+i]+'(m('+tok[16+i]+' '+tok[17+i]+' '+tok[18+i]+'\n'+\
                 '));}\n';
-        writeout +='count +='+counter+';}while(!is_sorted()&& count<Pressure);\ncout << count << ", "; \nfor(int j = 0; j < 10; j++){cout << a[j] << ", ";}\nreturn 0;}'
+        writeout +='count +='+counter+';}while(!is_sorted()&& count<Pressure);\ncout << count << ", "; \ncout << "s = " << s << endl;\nfor(int j = 0; j < s; ++j){cout << a[j] << ", ";}\ndelete [] a;\nreturn 0;}'
         organism.write(writeout)
 	return
 
@@ -70,7 +72,7 @@ def gen_begin(num):
     for i in range(num):
         speclocation = 'habitat/spec'+str(num)
         subprocess.call('g++ '+speclocation+'/*.cpp habitat/biosort.o -o '+speclocation+'/organism.out -g', shell = True)
-        opcount = subprocess.Popen(speclocation+'/organism.out',stdin = PIPE, stdout = PIPE, stderr = PIPE, bufsize = 1)
+        opcount = subprocess.Popen([speclocation+'/organism.out', '3', '1', '2', '0', '4', '5', '6'], stdin = PIPE, stdout = PIPE, stderr = PIPE, bufsize = 1)
         organism = open(speclocation+'/organism.cpp')
         genesequence = organism.readline()
         genesequence = genesequence[2:-3]

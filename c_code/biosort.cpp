@@ -1,9 +1,10 @@
 #include "biosort.h"
 
-int v;
+int v = 0;
 extern int count;
-int * a;
-int i;
+int s;
+extern int * a;
+int i = 0;
 static int random_index = 0;
 static int random_num[512] = {
 8, 4, 2, 2, 0, 7, 6, 4, 8, 0, 2, 5, 6, 5, 6, 5, 0, 1, 8, 6, 
@@ -32,8 +33,6 @@ static int random_num[512] = {
 6, 4, 9, 3, 9, 9, 4, 0, 7, 3, 8, 5, 9, 6, 2, 4, 7, 4, 7, 7, 
 3, 5, 6, 4, 8, 2, 4, 4, 8, 7, 3, 6, 1, 2, 2, 3, 3, 6, 5, 3, 
 1, 6, 8, 0, 2, 2, 4, 9, 6, 3, 9, 9};
-
-
 
 void w(int to_index)
 {
@@ -175,4 +174,12 @@ bool is_sorted()
 	if(index < s - 1)		
 		return false;
 	return true;
+}
+
+void build(char** argv)
+{
+    for(int i = 1; i < s + 1; ++i)
+    {
+        a[i - 1] = atoi(argv[i]);
+    }
 }
