@@ -1,3 +1,4 @@
+import random
 import subprocess 
 
 def make_list(x): 

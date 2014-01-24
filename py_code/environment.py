@@ -6,7 +6,7 @@ from biosort import Start
 
 
 class Environment:
-    __init__(ge, ru, ra, br, ki, mu, ad, pr, ma)
+    def __init__(self, ge, ru, ra, br, ki, mu, ad, pr, ma, ar, pe, na):
         self.gens = ge
         self.runs = ru
         self.rands = ra
@@ -16,12 +16,15 @@ class Environment:
         self.adds = ad
         self.pressure = pr
         self.maxgenes = ma
+        self.arraysize = ar
+        self.penalty = pe
+        self.name = na
 
 config = ConfigParser.RawConfigParser()
 config.read(['../config.cfg'])
 
 #generation
-num_generations = config.get('generation', 'num_generations')
+num_generations = config.getint('generation', 'num_generations')
 runs_per_generation = config.getint('generation', 'runs_per_generation')
 
 #petri
@@ -35,17 +38,23 @@ num_add_mutations = config.getint('mutation', 'num_add_mutations')
 
 #pressure
 start_pressure = config.getint('pressure', 'start_pressure')
+penalty = config.getint('pressure', 'penalty')
 
 #genes
 gene_max = config.getint('genes', 'gene_max')
 
+#array
+array_size = config.getint('array', 'array_size')
+
+#sim name
+name = config.get('name', 'sim_name')
 
 print num_breeders
 print kids_per_breeder
 
-env = Environment(num_generations, runs_per_generation, num_random, num_breeders, kids_per_breeder, num_mutations, num_add_mutations, start_pressure, gene_max);
+env = Environment(num_generations, runs_per_generation, num_random, num_breeders, kids_per_breeder, num_mutations, num_add_mutations, start_pressure, gene_max, array_size, penalty, name)
 
-if not os.path.isdir(../'habitat'):
+if not os.path.isdir('../habitat'):
     os.mkdir('../habitat')
 
 for x in range(0, num_breeders):

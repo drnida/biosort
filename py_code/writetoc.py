@@ -1,14 +1,14 @@
 from genecreate import translategene  
 
 
-def writeheader(genesequence): 
-    header = '/*'+genesequence+'*/\n#include <iostream>\nusing namespace std;\n#include "../biosort.h"\nlong long Pressure = 10000000;\nextern int v;\nint count=0;\nint * a;\nextern int i;\n'\
-            'int temp[10] = {5, 9, 3, 2, 6, 1, 4, 8, 7, 0};\n\nint main(int argc,char ** argv)\n{\ns=argc-1;\na=new int[s];\nbuild(argv);' 
+def writeheader(genesequence, pressure): 
+    header = '/*'+genesequence+'*/\n#include <iostream>\nusing namespace std;\n#include "../biosort.h"\nint Pressure = '+str(pressure)+';\nextern int v;\nint count=0;\nint * a;\nextern int i;\n'\
+            '\nint main(int argc,char ** argv)\n{\ns=argc-1;\na=new int[s];\nbuild(argv);' 
     return header 
  
 
-def writebody(organism, genesequence): 
-    writeout = writeheader(genesequence) 
+def writebody(organism, genesequence, pressure): 
+    writeout = writeheader(genesequence, pressure) 
     writeout += 'do{' 
     tok = translategene(genesequence) 
     num = len(tok)/19 
@@ -25,10 +25,10 @@ def writebody(organism, genesequence):
     organism.write(writeout) 
     return 
 
-def writec(folder, genesequence):
+def writec(folder, genesequence, pressure):
     filename = folder+'/organism.cpp' 
     organism = open(filename, 'w+') 
-    writebody(organism, genesequence) 
+    writebody(organism, genesequence, pressure) 
     organism.close() 
     return
 
