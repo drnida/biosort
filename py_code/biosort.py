@@ -49,8 +49,8 @@ def setupgen(num_organisms):
 
 # This will take in a class object containin the environment parameters
 def Start(env):
-    ops = 0
-    while ops not in (1, env.pressure):
+    ops = env.pressure
+    while ops >= env.pressure:
         arraylist = []
         for i in range(env.runs):
             arraylist.append(make_list(env.arraysize))

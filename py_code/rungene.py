@@ -12,7 +12,7 @@ def testgene(folder, genesequence, arraylist, env):
      
     # Runs an organism however many times we want 
     for i in range(env.runs):
-        array = ' '.join(str(arraylist[i]))
+        array = ' '.join(str(x) for x in arraylist[i])
         command = folder + '/organism.out '+array
         opcount = subprocess.Popen(command, stdin = PIPE, stdout = PIPE, stderr = PIPE, bufsize = 1, shell = True) 
          
