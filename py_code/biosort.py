@@ -45,7 +45,7 @@ def writebody(organism, genesequence):
 		'\n)'+tok[8+i]+')'+tok[9+i]+'\n('+tok[10+i]+' m('+tok[11+i]+' '+tok[12+i]+' '+tok[13+i]+\
 		'\n)'+tok[14+i]+'))\n{\n'+tok[15+i]+'(m('+tok[16+i]+' '+tok[17+i]+' '+tok[18+i]+'\n'+\
                 '));}\n';
-        writeout +='count +='+counter+';}while(!is_sorted()&& count<Pressure);\ncout << count << ", "; \nfor(int j = 0; j < 10; j++){cout << a[j] << ", ";}\nreturn 0;}'
+        writeout +='count +='+counter+';}while(!is_sorted()&& count<Pressure);\ncout << count << endl; \nfor(int j = 0; j < 10; j++){cout << a[j] << ", ";}\nreturn 0;}'
         organism.write(writeout)
 	return
 
@@ -72,37 +72,41 @@ def gen_begin(num_organisms, organism_run_num):
     j = 1
     
     # Runs the loop however many number of organisms is specified
-    for i in range(num_organisms):
+    for i in range(1, num_organisms+1):
 	# Variables to track information on organism runs
 	opcount_counter = 0
 	total_opcount = 0
 	genesequence = ''
+	speclocation = 'habitat/spec'+str(i)
+        print speclocation
+	subprocess.call('g++ ' + speclocation + '/*.cpp habitat/biosort.o -o ' + speclocation + '/organism.out -g', shell = True)
 	
 	# Runs an organism however many times we want
 	for j in range(organism_run_num):
-	    speclocation = 'habitat/spec'+str(i)
-	    
-	    if not os.path.exists(speclocation):
-		os.makedirs(speclocation)
-	    
-	    subprocess.call('g++ ' + speclocation + '/*.cpp habitat/biosort.o -o ' + speclocation + '/organism.out -g', shell = True)
-	    opcount = subprocess.Popen(speclocation + '/organism.out',stdin = PIPE, stdout = PIPE, stderr = PIPE, bufsize = 1)
-	    organism = open(speclocation+'/organism.cpp')
-	    genesequence = organism.readline()
-	    genesequence = genesequence[2:-3]
+	    opcount = subprocess.Popen(speclocation + '/organism.out',stdin = PIPE, stdout = PIPE, stderr = PIPE, bufsize = 1, shell = True)
 	    
 	    # Getting opcount and adding to total
-	    opcount_counter = opcount.stdout.read()
+            firstline = True
+            for line in iter(opcount.stdout.readline, ''):
+                if firstline == True:
+	            opcount_counter = int(line)
+                    firstline = False
+                else:
+                    print line
+                    
 	    total_opcount += opcount_counter
 	    
-	    opcount.terminate()
-	    print opcount
 	
 	# Calculating mean number of ops
 	mean_opcount = total_opcount / organism_run_num
 	
+        # Grabbing the gene sequence
+        organism = open(speclocation+'/organism.cpp')
+	genesequence = organism.readline()
+	genesequence = genesequence[2:-3]
+	
 	# Adding organism to log file
-	add_organism_log(folder, genesequence, mean_opcount)
+	add_organism_log('./logs/', genesequence, mean_opcount)
     #gen_end() to write out log file
 
 
@@ -111,7 +115,7 @@ def gen_begin(num_organisms, organism_run_num):
 def add_organism_log(folder, genes, ops):
     log_file = folder + 'log.txt'
     log = open(log_file, 'a')
-    log.write(genes + "\t" + ops + "\n")
+    log.write(genes + "\t" + str(ops) + "\n")
     log.close()
 
 
@@ -128,7 +132,10 @@ def calcoffset(genesequence):
     length = length + 5;
     return length;
 
-teststring = howmany(10)
-writec(teststring, 1)
-headeroffset = calcoffset(teststring)
+def setupgen(num_organisms):
+    for i in range(1, num_organisms+1):
+        writec(howmany(10), i)
+
+
+setupgen(5)
 gen_begin(5, 5)
