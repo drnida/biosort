@@ -5,6 +5,7 @@ import subprocess
 def testgene(folder, genesequence, arraylist, env):
     writec(folder, genesequence, env.pressure)
 
+    subprocess.call('g++ -c -o ../habitat/biosort.o ../c_code/biosort.cpp -g', shell = True) 
     opcount_counter = 0 
     total_opcount = 0 
     genesequence = '' 

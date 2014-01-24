@@ -1,4 +1,6 @@
 #include "biosort.h"
+#include <iostream>
+using namespace std;
 
 int v = 0;
 extern int count;
