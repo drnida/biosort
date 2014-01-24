@@ -1,0 +1,29 @@
+#config.cfg
+
+
+[generation]
+#Number of generations
+num_generations= 100
+
+#Runs per generation
+runs_per_generation = 10
+
+[petri]
+#Number of dedicated random organisms
+num_random = 0
+
+#Number of breeders
+num_breeders = 2
+
+#Number of offspring per breeder 
+kids_per_breeder = 4
+
+[mutation]
+#Base number of mutations per offspring
+num_mutations = 1
+
+#Additional mutations for successive offspring
+#   for example: if this is set to 1 and num_mutations
+#   is set to one, then the breeder's first child
+#   would have 1 mutation, the second would have 2, etc
+num_add_mutations = 1
