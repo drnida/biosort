@@ -2,8 +2,6 @@
 
 import ConfigParser
 import os
-from biosort import Start
-
 
 class Environment:
     def __init__(self, ge, ru, ra, br, ki, mu, ad, pr, ma, ar, pe, na):
@@ -20,52 +18,53 @@ class Environment:
         self.penalty = pe
         self.name = na
 
-config = ConfigParser.RawConfigParser()
-config.read(['../config.cfg'])
+def CreateEnvironment():
 
-#generation
-num_generations = config.getint('generation', 'num_generations')
-runs_per_generation = config.getint('generation', 'runs_per_generation')
+    config = ConfigParser.RawConfigParser()
+    config.read(['./config.cfg'])
 
-#petri
-num_random = config.getint('petri', 'num_random')
-num_breeders = config.getint('petri', 'num_breeders')
-kids_per_breeder = config.getint('petri', 'kids_per_breeder')
+    #generation
+    num_generations = config.getint('generation', 'num_generations')
+    runs_per_generation = config.getint('generation', 'runs_per_generation')
 
-#mutation
-num_mutations = config.getint('mutation', 'num_mutations')
-num_add_mutations = config.getint('mutation', 'num_add_mutations')
+    #petri
+    num_random = config.getint('petri', 'num_random')
+    num_breeders = config.getint('petri', 'num_breeders')
+    kids_per_breeder = config.getint('petri', 'kids_per_breeder')
 
-#pressure
-start_pressure = config.getint('pressure', 'start_pressure')
-penalty = config.getint('pressure', 'penalty')
+    #mutation
+    num_mutations = config.getint('mutation', 'num_mutations')
+    num_add_mutations = config.getint('mutation', 'num_add_mutations')
 
-#genes
-gene_max = config.getint('genes', 'gene_max')
+    #pressure
+    start_pressure = config.getint('pressure', 'start_pressure')
+    penalty = config.getint('pressure', 'penalty')
 
-#array
-array_size = config.getint('array', 'array_size')
+    #genes
+    gene_max = config.getint('genes', 'gene_max')
 
-#sim name
-name = config.get('name', 'sim_name')
+    #array
+    array_size = config.getint('array', 'array_size')
 
-print num_breeders
-print kids_per_breeder
+    #sim name
+    name = config.get('name', 'sim_name')
 
-env = Environment(num_generations, runs_per_generation, num_random, num_breeders, kids_per_breeder, num_mutations, num_add_mutations, start_pressure, gene_max, array_size, penalty, name)
+    print num_breeders
+    print kids_per_breeder
 
-if not os.path.isdir('../habitat'):
-    os.mkdir('../habitat')
+    env = Environment(num_generations, runs_per_generation, num_random, num_breeders, kids_per_breeder, num_mutations, num_add_mutations, start_pressure, gene_max, array_size, penalty, name)
 
-for x in range(0, num_breeders):
-    try:
-        os.mkdir("../habitat/breeder" + str(x + 1))
-    except:
-        pass
-for x in range(num_breeders, num_breeders * kids_per_breeder):
-    try:
-        os.mkdir("../habitat/specimen" + str(x + 1))
-    except:
-        pass
+    if not os.path.isdir('./habitat'):
+        os.mkdir('./habitat')
 
-Start(env)
+    for x in range(0, num_breeders):
+        try:
+            os.mkdir("./habitat/breeder" + str(x + 1))
+        except:
+            pass
+    for x in range(num_breeders, (num_breeders + num_breeders * kids_per_breeder)):
+        try:
+            os.mkdir("./habitat/specimen" + str(x + 1))
+        except:
+            pass
+    return env

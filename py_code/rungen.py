@@ -9,9 +9,7 @@ def make_list(x):
  
 
 
-def gen_begin(env, generation): 
-    folder = os.getcwd() 
-    print folder 
+def gen_begin(env, generation):  
     output = '' 
     subprocess.call('g++ -c -o ./habitat/biosort.o ./c_code/biosort.cpp -g', shell = True) 
      
