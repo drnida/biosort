@@ -81,7 +81,7 @@ def roll4d6():
         return genesequence
 
 
-def howmany(num):
+def makegene(num):
 	newstring = ''
 	for i in range(num):
 		newstring += roll4d6()

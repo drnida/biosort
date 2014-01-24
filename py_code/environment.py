@@ -2,7 +2,20 @@
 
 import ConfigParser
 import os
-from writetoc.py import writec
+from biosort import Start
+
+
+class Environment:
+    __init__(ge, ru, ra, br, ki, mu, ad, pr, ma)
+        self.gens = ge
+        self.runs = ru
+        self.rands = ra
+        self.breeders = br
+        self.kids = ki
+        self.mutations = mu
+        self.adds = ad
+        self.pressure = pr
+        self.maxgenes = ma
 
 config = ConfigParser.RawConfigParser()
 config.read(['../config.cfg'])
@@ -20,8 +33,17 @@ kids_per_breeder = config.getint('petri', 'kids_per_breeder')
 num_mutations = config.getint('mutation', 'num_mutations')
 num_add_mutations = config.getint('mutation', 'num_add_mutations')
 
+#pressure
+start_pressure = config.getint('pressure', 'start_pressure')
+
+#genes
+gene_max = config.getint('genes', 'gene_max')
+
+
 print num_breeders
 print kids_per_breeder
+
+env = Environment(num_generations, runs_per_generation, num_random, num_breeders, kids_per_breeder, num_mutations, num_add_mutations, start_pressure, gene_max);
 
 if not os.path.isdir(../'habitat'):
     os.mkdir('../habitat')
@@ -36,3 +58,5 @@ for x in range(num_breeders, num_breeders * kids_per_breeder):
         os.mkdir("../habitat/specimen" + str(x + 1))
     except:
         pass
+
+Start(env)

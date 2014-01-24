@@ -25,10 +25,10 @@ def writebody(organism, genesequence):
     organism.write(writeout) 
     return 
 
-def writec(genesequence, folder):
+def writec(folder, genesequence):
     filename = folder+'/organism.cpp' 
     organism = open(filename, 'w+') 
     writebody(organism, genesequence) 
     organism.close() 
-    return 
+    return
 
