@@ -108,7 +108,7 @@ def calcoffset(genesequence):
  
 def setupgen(num_organisms): 
     for i in range(1, num_organisms+1): 
-        writec(howmany(10), i) 
+        writec(howmany(10), 'habitat/test') 
  
  
 setupgen(5) 
