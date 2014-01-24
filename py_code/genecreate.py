@@ -9,13 +9,18 @@ d2 = {'p':' (', 'b':'a['}
 #5,10,14
 d3 = {'0':'  0', '1':'  1', '2':'  2', '3':'  3', '4':'  4', '5':'  5', '6':'  6', '7':'  7', '8':'  8', '9':'  9', 'r':'r()','i':'  i','v':'  v'}
 #2,6,11,15
-d4 = {'-':' -', '+':' +', '*':' *', 'N':'//', '%':'%', '/':'/'}
+d4 = {'-':' -', '+':' +', '*':' *', 'N':'//', '%':' %', '/':' /'}
 #8
 d5 = {'=':'==', '!':'!=', 'L':'<=', 'G':'>=', '<':' <', '>':' >'}
 #13 (Not for mapping gene sequence, but used to randomize in the same way as the other 5)
+<<<<<<< HEAD
 d6 = {'w':'w'}
+=======
+d6 = {'w':'w', 'u':'u', 'd':'d'}
+>>>>>>> 89d2cebda130e3af71b17deed34fad03d8493773
 #This is a special case for 3, 7, 12, and 16 that doesnt allow mod or divide by 0
 d7 = {'1':'  1', '2':'  2', '3':'  3', '4':'  4', '5':'  5', '6':'  6', '7':'  7', '8':'  8', '9':'  9', 'R':'R()'}
+
 
 # Takes in a gene sequence and returns an array of tokens with the opcount for one loop as the last token
 def translategene(astring):
