@@ -88,7 +88,7 @@ def gen_begin(num_organisms, organism_run_num):
 	 
 	# Runs an organism however many times we want 
 	for j in range(organism_run_num): 
-	    opcount = subprocess.Popen([speclocation + '/organism.out', '3', '1', '2', '0', '4', '5', '6'], stdin = PIPE, stdout = PIPE, stderr = PIPE, bufsize = 1, shell = True) 
+	    opcount = subprocess.Popen(speclocation + '/organism.out 3 1 2 0 4 5 6', stdin = PIPE, stdout = PIPE, stderr = PIPE, bufsize = 1, shell = True) 
 	     
 	    # Getting opcount and adding to total 
             firstline = True 
