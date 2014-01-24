@@ -69,7 +69,10 @@ def roll4d6():
 		elif i in [4,9]:
 			genesequence += random.choice(d2.keys())
 		elif i in [5,10,14]:
-			genesequence += random.choice(d3.keys())
+			c = random.choice(d3.keys())
+                        while i == 14 and c == 'v':
+                            c = random.choice(d3.keys())
+                        genesequence += c
                 elif i in [3,7,12,16]:
                         genesequence += random.choice(d7.keys())
 		elif i in [2,6,11,15]:
