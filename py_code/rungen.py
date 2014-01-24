@@ -1,3 +1,4 @@
+import os
 import random
 import subprocess 
 
@@ -8,7 +9,7 @@ def make_list(x):
  
 
 
-def gen_begin(num_organisms, organism_run_num): 
+def gen_begin(env, generation): 
     folder = os.getcwd() 
     print folder 
     output = '' 
@@ -30,16 +31,25 @@ def gen_begin(num_organisms, organism_run_num):
 	genesequence = genesequence[2:-3] 
 	 
 	# Adding organism to log file 
-	add_organism_log('./logs/', genesequence, mean_opcount) 
+	add_organism_log(env, genesequence, mean_opcount, generation) 
     #gen_end() to write out log file 
  
  
 # Adds an organism's results to log file. The log file is in the current working 
 # directory that was found in the "gen_begin" method. 
-def add_organism_log(folder, genes, ops): 
-    log_file = folder + 'log.txt' 
+def add_organism_log(env, genes, ops, generation): 
+    log_file = './logs/' + env.sim_name + '/log.txt' 
     log = open(log_file, 'a') 
-    log.write(genes + "\t" + str(ops) + "\n") 
+    if ops > env.pressure:
+        log.write("G" + generation + '\t'\
+        + 'F' + '\t'\
+        + str(ops) + '\t'\
+        + genes + '\n') 
+    else:
+        log.write("G" + generation + '\t'\
+        + 'S' + '\t'\
+        + str(ops) + '\t'\
+        + genes + '\n') 
     log.close() 
 
 
