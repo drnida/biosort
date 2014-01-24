@@ -6,7 +6,7 @@
 num_generations= 100
 
 #Runs per generation
-runs_per_generation = 10
+runs_per_generation = 4
 
 [petri]
 #Number of dedicated random organisms
@@ -31,14 +31,15 @@ num_add_mutations = 1
 [pressure]
 #Starting pressure
 start_pressure = 1000000
-penalty = 0
+penalty = 500000
+
 
 [genes]
 #Max number of genes per organism
 gene_max = 10
 
 [array]
-array_size = 20
+array_size = 8
 
 [name]
 sim_name = "FML"
