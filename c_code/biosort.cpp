@@ -52,19 +52,21 @@ void u(int to_index)
     }
 
     int j = i;
-	int temp = a[j++];
-	
-	while(j != to_index)
-	{
+    int temp = a[j++];
+    while(j != to_index)
+    {
         if(j > s - 1)
         {
             a[s - 1] = a[0];
             j = 0;
             count += 3;
         }
-	    else
-	    {
-            a[j - 1] = a[j++];
+	else
+	{
+            if(j == 0)
+                a[j++] = a[j + 1];
+            else
+                a[j - 1] = a[j++];
             count += 3;
         }
         count += 2;
@@ -76,9 +78,12 @@ void u(int to_index)
         j = 0;
         count += 3;
     }
-	else
-	{
-        a[j - 1] = a[j++];
+    else
+    {
+        if(j == 0)
+            a[j++] = a[j + 1];
+        else
+            a[j - 1] = a[j++];
         count += 3; 
     }
     a[to_index] = temp;
@@ -95,19 +100,22 @@ void d(int to_index)
     }
 
     int j = i;
-	int temp = a[j--];
+    int temp = a[j--];
 	
-	while(j != to_index)
-	{
+    while(j != to_index)
+    {
         if(j < 0)
         {
             a[0] = a[s-1];
             j = s - 1;
             count += 3;
         }
-	    else
-	    {
-            a[j + 1] = a[j--];
+	else
+	{
+            if(j == s - 1)
+                a[j--] = a[j - 1];
+            else
+                a[j + 1] = a[j--];
             count += 3;
         }
     }
@@ -118,9 +126,12 @@ void d(int to_index)
         j = s - 1;
         count += 3;
     }
-	else
-	{
-        a[j + 1] = a[j--];
+    else
+    {
+        if(j == s - 1)
+            a[j--] = a[j - 1];
+        else
+            a[j + 1] = a[j--];
         count += 3;
     }
 
