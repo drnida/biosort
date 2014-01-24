@@ -2,6 +2,7 @@
 
 import ConfigParser
 import os
+from writetoc.py import writec
 
 config = ConfigParser.RawConfigParser()
 config.read(['../config.cfg'])
@@ -22,16 +23,16 @@ num_add_mutations = config.getint('mutation', 'num_add_mutations')
 print num_breeders
 print kids_per_breeder
 
-if not os.path.isdir('habitat'):
-    os.mkdir('habitat')
+if not os.path.isdir(../'habitat'):
+    os.mkdir('../habitat')
 
 for x in range(0, num_breeders):
     try:
-        os.mkdir("habitat/breeder" + str(x + 1))
+        os.mkdir("../habitat/breeder" + str(x + 1))
     except:
         pass
 for x in range(num_breeders, num_breeders * kids_per_breeder):
     try:
-        os.mkdir("habitat/specimen" + str(x + 1))
+        os.mkdir("../habitat/specimen" + str(x + 1))
     except:
         pass
