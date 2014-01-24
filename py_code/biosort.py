@@ -8,6 +8,7 @@ from genecreate import howmany, translategene, roll4d6
  
  
  
+offset = {1:0, 2:3, 3:5, 4:24, 5:28, 6:31, 7:33, 8:38, 9:40, 10:44, 11:48, 12:51, 13:53, 14:58 , 15:64, 16:68, 17:71, 18:73}
  
  
 #body should look as follows 
