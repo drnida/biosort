@@ -1,55 +1,29 @@
 #include "biosort.h"
-#include <iostream>
-using namespace std;
 
-int v = 0;
-extern int count;
-int s;
-extern int * a;
-int i = 0;
-static int random_index = 0;
-static int random_num[512] = {
-8, 4, 2, 2, 0, 7, 6, 4, 8, 0, 2, 5, 6, 5, 6, 5, 0, 1, 8, 6, 
-1, 8, 7, 4, 3, 4, 5, 7, 9, 1, 9, 9, 5, 3, 2, 8, 1, 0, 2, 1, 
-2, 6, 8, 8, 2, 5, 5, 4, 6, 5, 0, 7, 5, 0, 1, 9, 6, 8, 8, 8, 
-0, 9, 7, 7, 3, 1, 5, 4, 1, 0, 7, 4, 6, 5, 4, 0, 0, 0, 4, 8, 
-7, 7, 8, 3, 9, 1, 4, 5, 0, 2, 3, 0, 2, 3, 7, 5, 4, 5, 1, 6, 
-5, 8, 2, 1, 5, 6, 4, 8, 6, 8, 6, 6, 5, 6, 9, 6, 8, 3, 2, 8, 
-5, 7, 8, 9, 0, 7, 4, 7, 2, 7, 3, 7, 7, 5, 1, 3, 3, 5, 3, 2, 
-5, 1, 8, 3, 8, 7, 9, 6, 2, 3, 4, 9, 1, 4, 9, 3, 1, 5, 2, 4, 
-5, 5, 3, 2, 2, 4, 5, 8, 1, 8, 0, 7, 2, 8, 2, 0, 7, 1, 6, 9, 
-7, 0, 0, 8, 4, 9, 3, 7, 7, 6, 1, 2, 3, 7, 4, 8, 1, 2, 6, 5, 
-2, 8, 4, 4, 6, 6, 4, 5, 7, 2, 4, 4, 2, 6, 4, 8, 8, 0, 8, 5, 
-8, 1, 9, 3, 8, 5, 3, 2, 9, 9, 7, 2, 9, 1, 8, 5, 7, 5, 0, 6, 
-7, 6, 3, 2, 3, 7, 2, 1, 9, 0, 8, 7, 2, 7, 3, 2, 2, 6, 4, 2, 
-8, 1, 6, 7, 4, 6, 3, 1, 3, 5, 0, 1, 4, 3, 5, 7, 2, 7, 0, 2, 
-0, 8, 1, 4, 5, 4, 8, 9, 1, 3, 3, 9, 6, 1, 6, 1, 8, 1, 4, 1, 
-9, 6, 4, 3, 9, 9, 0, 2, 9, 0, 4, 1, 0, 7, 7, 7, 2, 5, 8, 5, 
-8, 2, 4, 7, 3, 2, 0, 3, 6, 6, 7, 5, 3, 1, 8, 2, 3, 0, 6, 4, 
-2, 0, 7, 4, 8, 4, 1, 2, 9, 9, 7, 0, 3, 3, 9, 7, 7, 9, 2, 3, 
-5, 9, 0, 0, 3, 0, 5, 8, 2, 1, 2, 4, 4, 9, 8, 4, 3, 1, 6, 4, 
-1, 5, 6, 4, 8, 5, 3, 7, 4, 8, 3, 2, 7, 3, 4, 2, 4, 9, 0, 8, 
-1, 2, 3, 5, 3, 3, 9, 8, 5, 5, 3, 8, 2, 1, 4, 0, 7, 8, 9, 3, 
-6, 2, 5, 5, 6, 0, 0, 2, 1, 0, 0, 2, 5, 5, 7, 0, 1, 8, 9, 6, 
-5, 4, 6, 7, 5, 0, 9, 2, 0, 9, 6, 8, 1, 3, 4, 7, 5, 6, 1, 7, 
-6, 4, 9, 3, 9, 9, 4, 0, 7, 3, 8, 5, 9, 6, 2, 4, 7, 4, 7, 7, 
-3, 5, 6, 4, 8, 2, 4, 4, 8, 7, 3, 6, 1, 2, 2, 3, 3, 6, 5, 3, 
-1, 6, 8, 0, 2, 2, 4, 9, 6, 3, 9, 9};
+int v = 0; //Value at the array index being considered
+extern int count; //Current total opcount of this program
+int s; //Size of the array to be sorted
+extern int * a; //The array to be sorted
+int i = 0; //The current index of the array being considered
 
+//Swaps a[i] with a[to_index]
+//Please adjust count if you edit this function.
 void w(int to_index)
 {
 	int temp = a[to_index];
 	a[to_index] = a[i];
 	a[i] = temp;
 
-	count += 3;
+	count += 3; //3 assignments
 }
 
+//Moves a[i] to a[to_index] and shifts up as needed.
+//Please adjust count if you edit this function.
 void u(int to_index)
 {
     if(i == to_index)
     {
-        ++count;
+        ++count; //1 comparison
         return;
     }
 
@@ -61,24 +35,24 @@ void u(int to_index)
         {
             a[s - 1] = a[0];
             j = 0;
-            count += 3;
+            count += 3; //2 assignments, 1 math
         }
-	else
-	{
+	    else
+	    {
             if(j == 0)
                 a[j++] = a[j + 1];
             else
                 a[j - 1] = a[j++];
-            count += 3;
+            count += 4; //1 assignment, 1 increment, 1 compare, 1 math
         }
-        count += 2;
+        count += 3; //2 compares, 1 math
     }
 
     if(j > s - 1)
     {
         a[s - 1] = a[0];
         j = 0;
-        count += 3;
+        count += 3; //2 assignment, 1 math
     }
     else
     {
@@ -86,18 +60,20 @@ void u(int to_index)
             a[j++] = a[j + 1];
         else
             a[j - 1] = a[j++];
-        count += 3; 
+        count += 4; //1 assignment, 1 increment, 1 compare, 1 math
     }
     a[to_index] = temp;
 
-    count += 5;
+    count += 8; //3 assignments, 3 compares, 1 increment, 1 math
 }
 
+//Moves a[i] to a[to_index] and shifts down as needed.
+//Please adjust count if you edit this function.
 void d(int to_index)
 {
     if(i == to_index)
     {
-        ++count;
+        ++count; //1 compare
         return;
     }
 
@@ -108,25 +84,26 @@ void d(int to_index)
     {
         if(j < 0)
         {
-            a[0] = a[s-1];
+            a[0] = a[s - 1];
             j = s - 1;
-            count += 3;
+            count += 4; //2 assignments, 2 math
         }
-	else
-	{
+	    else
+	    {
             if(j == s - 1)
                 a[j--] = a[j - 1];
             else
                 a[j + 1] = a[j--];
-            count += 3;
+            count += 5; //1 assignment, 1 decrement, 1 compare, 2 math
         }
+        count += 2; //2 compares
     }
 
     if(j < 0)
     {
-        a[0] = a[s-1];
+        a[0] = a[s - 1];
         j = s - 1;
-        count += 3;
+        count += 4; //2 assignments, 2 math
     }
     else
     {
@@ -134,61 +111,81 @@ void d(int to_index)
             a[j--] = a[j - 1];
         else
             a[j + 1] = a[j--];
-        count += 3;
+        count += 5; //1 assignment, 1 decrement, 2 math, 1 compare
     }
 
     a[to_index] = temp;
 
-    count += 5;
+    count += 7; //3, assignments, 3 compares, 1 decrement
 }
 
+//Array safe mod function.  Always returns positive.
+//Please adjust count if you edit this function.
 int m(int input)
 {
     input %= s;
     if(input < 0)
+    {
         input += s;
+        ++count; //1 math+assignment
+    }
+    count += 2; //1 math+assignment, 1 compare
     return input;
 }
 
-
+//Returns random number safely modded by array size.
+//Please adjust count if you edit this function.
 int r()
 {
-	count += 2;
-	if(random_index == 511)
-	{
-		random_index = 0;
-		++count;
-	}
-	return random_num[random_index++];
+    return m(xor());
 }
 
+//Returns random, non-zero number safely modded by array size.
+//Please adjust count if you edit this function.
 int R()
 {
-    int r_num;
+    int temp;
     do
     {
-    	count += 2;
-	    if(random_index == 511)
-    	{
-	    	random_index = 0;
-		    ++count;
-    	}
-    	r_num = random_num[random_index++];
-    }while(!r_num);
-	return r_num;
+        count += 2; //1 assignment, 1 compare
+        temp = m(xor());
+    } while (!temp);
+    return temp;
 }
 
+//Generates one of 2^32 - 1 random numbers.
+//Please adjust count if you edit this function.
+int xor()
+{
+    //XOR shift information:
+    //"Xorshift RNGs"
+    //Dr. George Marsaglia
+    //The Florida State University
+
+    count += 6; //3 shifts, 3 xor+assignments
+    static unsigned long y = 1234567890; //Only happens once, not counted
+    y ^= (y << 9);
+    y ^= (y >> 5);
+    return (y ^= (y << 1));
+}
+
+//Tests if the array is sorted.
+//Exits when first unsorted element is encountered.
+//Please adjust count if you edit this function.
 bool is_sorted()
 {
 	int index = 0;
 	
 	while(a[index] == index && ++index != s - 1) 
-		count += 2;
+		count += 5; //1 assignment, 3 compares, 1 math
+	count += 2; //1 compare, 1 math (below)
 	if(index < s - 1)		
 		return false;
 	return true;
 }
 
+//Build the random array from command line args
+//Count does not need to be changed in this function
 void build(char** argv)
 {
     for(int i = 1; i < s + 1; ++i)
