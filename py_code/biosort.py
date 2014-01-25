@@ -59,4 +59,3 @@ def Start(env):
         ops = testgene("./habitat/breeder1", makegene(random.randint(1,env.maxgenes)), arraylist, env)
 
 Start(CreateEnvironment()) 
-

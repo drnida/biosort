@@ -1,36 +1,35 @@
-#include "biosort.h"
 #include <iostream>
 
 using namespace std;
 
-int count = 0;
-extern int * a;
-extern int i;
-extern int count;
-int temp[10] = { 5, 9, 1, 3, 2, 8, 6, 4, 0, 7};
+int r();
 
 int main()
 {
-	a = temp;
+    int even = 0;
+    int odd = 0;
+    int num;
 
-	do
-	{
-	    r();
-	    r();
-	    r();
-		i = r();
-		w(r());
+    for(int i = 0; i < 10000000; ++i)
+    {
+        num = r();
+        cout << endl << num;
+        if(num % 2)
+            ++even;
+        else
+            ++odd;
+    }
 
-		i = r();
-		u(r());
-
-		i = r();
-		d(r());
-	
-		count += 3;
-	}while(!is_sorted);
-
-	cout << endl << "ops: " << count << endl;
+    cout << endl << "even: " << even;
+    cout << endl << "odd: " << odd;
 
 	return 0;
+}
+
+int r()
+{
+    static unsigned long y = 1234567890;
+    y ^= (y << 9);
+    y ^= (y >> 5);
+    return (y ^= (y << 1));
 }

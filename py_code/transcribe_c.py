@@ -21,7 +21,7 @@ def writebody(organism, genesequence, pressure):
             '\n)'+tok[8+i]+')'+tok[9+i]+'\n('+tok[10+i]+' m('+tok[11+i]+' '+tok[12+i]+' '+tok[13+i]+\
             '\n)'+tok[14+i]+'))\n{\n'+tok[15+i]+'(m('+tok[16+i]+' '+tok[17+i]+' '+tok[18+i]+'\n'+\
             '));}\n'; 
-    writeout +='count +='+counter+';}while(!is_sorted()&& count<Pressure);\ncout << count << endl; \ncout << "s = " << s << endl;\nfor(int j = 0; j < s; ++j){cout << a[j] << ", ";}\ndelete [] a;\nreturn 0;}' 
+    writeout +='count +='+counter+';}while(!is_sorted()&& count<Pressure);\ncout << count << endl; \ncout << "Size = " << s << endl;\ncout<<"Array: { ";for(int j = 0; j < s - 1; ++j){cout << a[j] << ", ";}cout<<a[s]<<"}";\ndelete [] a;\nreturn 0;}' 
     organism.write(writeout) 
     return 
 

@@ -27,9 +27,10 @@ def testgene(folder, genesequence, arraylist, env):
         for line in iter(opcount.stdout.readline, ''): 
             if firstline == True: 
                 opcount_counter = int(line) 
+                print "Ops: " + line
                 firstline = False 
             else: 
-                print line 
+                print line, 
         if opcount_counter > env.pressure:
             if env.penalty != -1:
                 opcount_counter += env.penalty
