@@ -1,4 +1,5 @@
 import os 
+import random
 
 def make_list(x): 
     mylist = list(xrange(x)) 
@@ -16,16 +17,16 @@ def gen_begin(env, generation):
     #gen_end() to write out log file 
      
     # Runs the loop however many number of organisms is specified 
-    for i in range(1, env.breeders+1): 
-	testgene("./habitat/breeder"+i, 
+    #for i in range(1, env.breeders+1): 
+	#testgene("./habitat/breeder"+i, 
 	
-        # Grabbing the gene sequence 
-        organism = open(speclocation+'/organism.cpp') 
-	genesequence = organism.readline() 
-	genesequence = genesequence[2:-3] 
+    # Grabbing the gene sequence 
+    #organism = open(speclocation+'/organism.cpp') 
+	#genesequence = organism.readline() 
+	#genesequence = genesequence[2:-3] 
 	 
 	# Adding organism to log file 
-	add_organism_log(env, genesequence, mean_opcount, generation) 
+	#add_organism_log(env, genesequence, mean_opcount, generation) 
     #gen_end() to write out log file 
  
  

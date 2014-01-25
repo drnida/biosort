@@ -27,4 +27,4 @@ bool is_sorted();
 void build(char**);
 
 //Provides random int
-int xor();
+int xor_shift();

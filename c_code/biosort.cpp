@@ -137,7 +137,7 @@ int m(int input)
 //Please adjust count if you edit this function.
 int r()
 {
-    return m(xor());
+    return m(xor_shift());
 }
 
 //Returns random, non-zero number safely modded by array size.
@@ -148,14 +148,14 @@ int R()
     do
     {
         count += 2; //1 assignment, 1 compare
-        temp = m(xor());
+        temp = m(xor_shift());
     } while (!temp);
     return temp;
 }
 
 //Generates one of 2^32 - 1 random numbers.
 //Please adjust count if you edit this function.
-int xor()
+int xor_shift()
 {
     //XOR shift information:
     //"Xorshift RNGs"
