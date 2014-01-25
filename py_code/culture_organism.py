@@ -1,5 +1,5 @@
-from writetoc import writec
-from subprocess import Popen, PIPE 
+from transcribe_c import writec
+from subprocess import Popen, PIPE
 import subprocess
 
 

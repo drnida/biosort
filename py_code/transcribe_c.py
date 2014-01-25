@@ -1,4 +1,4 @@
-from genecreate import translategene  
+from create_gene import translategene  
 
 
 def writeheader(genesequence, pressure): 
