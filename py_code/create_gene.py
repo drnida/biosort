@@ -1,6 +1,7 @@
 #/usr/bin/env python
 #The following dictionaries are used to 1) create random genes and 2) Map gene sequence to tokens
 import random
+from organism import Organism
 
 #array index mods to 1
 d1 = {'0':'  0', '1':'  1', '2':'  2', '3':'  3', '4':'  4', '5':'  5', '6':'  6', '7':'  7', '8':'  8', '9':'  9', 'r':'r()'}
@@ -87,5 +88,6 @@ def roll4d6():
 def makegene(num):
 	newstring = ''
 	for i in range(num):
-		newstring += roll4d6()
-	return newstring
+	    newstring += roll4d6()
+        org = Organism(newstring)
+	return org

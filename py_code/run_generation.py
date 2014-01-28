@@ -32,19 +32,21 @@ def gen_begin(env, generation):
  
 # Adds an organism's results to log file. The log file is in the current working 
 # directory that was found in the "gen_begin" method. 
-def add_organism_log(env, genes, ops, generation): 
-    log_file = './logs/' + env.sim_name + '/log.txt' 
-    log = open(log_file, 'a') 
-    if ops > env.pressure:
-        log.write("G" + generation + '\t'\
-        + 'F' + '\t'\
-        + str(ops) + '\t'\
-        + genes + '\n') 
+def add_organism_log(env, org, generation): 
+    log_file = './logs/log.txt' 
+    log = open(log_file, 'a')
+    logout = "G" + str(generation) + '\t'
+    if org.avgops > env.pressure:
+        logout += 'F' + '\t' 
     else:
-        log.write("G" + generation + '\t'\
-        + 'S' + '\t'\
-        + str(ops) + '\t'\
-        + genes + '\n') 
+        logout += 'S' + '\t'
+    
+    logout += str(org.avgops) + '\t'\
+    + org.folder + '\t'\
+    + org.genesequence + '\n' 
+    
+    log.write(logout)
+        
     log.close() 
 
 

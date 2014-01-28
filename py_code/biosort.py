@@ -3,7 +3,7 @@
 import os 
 import shlex 
 from create_gene import makegene
-from run_generation import make_list 
+from run_generation import make_list, add_organism_log 
 from culture_organism import testgene
 import random
 from set_environment import CreateEnvironment
@@ -51,11 +51,15 @@ def setupgen(num_organisms):
 
 # This will take in a class object containin the environment parameters
 def Start(env):
-    ops = env.pressure
-    while ops >= env.pressure:
+    ops = 0
+    while ops not in range(1, env.pressure+1):
+        org = makegene(random.randint(1, env.maxgenes))
+        org.folder = "breeder1"
         arraylist = []
         for i in range(env.runs):
             arraylist.append(make_list(env.arraysize))
-        ops = testgene("./habitat/breeder1", makegene(random.randint(1,env.maxgenes)), arraylist, env)
+        testgene(org, arraylist, env)
+        add_organism_log(env, org, 0)
+        ops = org.avgops
 
 Start(CreateEnvironment()) 
