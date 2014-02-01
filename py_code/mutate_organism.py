@@ -4,13 +4,9 @@ from create_gene import get_replacement, roll4d6
 from transcribe_c import writec 
 from organism import Organism
 
-n = 9
-john =34+n
-
-
 pressure = 1000
 genelength = 95
-d20 = {1:0, 2:3, 3:5, 4:24, 5:29, 6:33, 7:36, 8:41, 9:43, 10:47, 11:50, 12:55, 13:53, 14:58 , 15:64, 16:68, 17:71, 18:73}
+d20 = {1:0, 2:3, 3:5, 4:24, 5:29, 6:33, 7:36, 8:41, 9:43, 10:47, 11:52, 12:56, 13:59, 14:64, 15:70, 16:74, 17:78, 18:81}
 
 
 
@@ -45,23 +41,24 @@ def copy_gene(org, source, dest, file_location):
 
 
 
-def mutate(org, num_mutations):
+def mutate(org, num_mutations, weight):
     file_location = org.folder
     for x in range(num_mutations):
-        i = john         #random.randint(0, len(org.genesequence)-1)
+        i = random.randint(0, len(org.genesequence)-1)
         j = 0 # for shifting offset in the case of offset being after ) or ]
         if org.genesequence[i] == "g":
-            k = random.randint(1, 3)
-            if k == 1:
-                num = (len(org.genesequence)/17)+1
-                num = (random.randint(0, num))*17
-                copy_gene(org, i, num, file_location)
-            elif k == 2:
-                delete_gene(org, i, file_location)
+            k = random.randint(1, 100)
+            if k > weight:
+                if random.randint(1,2) == 1:
+                    num = (len(org.genesequence)/17)+1
+                    num = (random.randint(0, num))*17
+                    copy_gene(org, i, num, file_location)
+                else:
+                    num = (len(org.genesequence)/17)+1
+                    num = (random.randint(0, num))*17
+                    create_gene(org, num, file_location)
             else:
-                num = (len(org.genesequence)/17)+1
-                num = (random.randint(0, num))*17
-                create_gene(org, num, file_location)
+                delete_gene(org, i, file_location)
         else:
             replace_with = get_replacement(i%17)
             if len(org.genesequence)-1 == i:
@@ -107,7 +104,7 @@ org = Organism(string)
 org.folder = "./test/"
 writec(org.folder, string, 1000)
 writec("./test1", string, 1000)
-mutate(org, 1)
+mutate(org, 3, 50)
 #for byteinfile in range(0, 96):
 #    offset = calc_header("./test/")+genelength*(byteinfile/17)+d20[byteinfile%17]
 #    f = open("./test/organism.cpp", 'r+')

@@ -26,7 +26,7 @@ def get_replacement(num):
     if num in [4, 9]:
         temp = random.choice(d2.keys())
         return [temp, d2[temp]]
-    if num in [3, 7, 12]:
+    if num in [3, 7, 12, 16]:
         temp = random.choice(d7.keys())
         return [temp, d7[temp]]
     if num in [5, 10, 14]:
