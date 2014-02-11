@@ -8,7 +8,6 @@ from culture_organism import testgene
 import random
 from set_environment import CreateEnvironment
 
-offset = {1:0, 2:3, 3:5, 4:24, 5:28, 6:31, 7:33, 8:38, 9:40, 10:44, 11:48, 12:51, 13:53, 14:58 , 15:64, 16:68, 17:71, 18:73}
  
  
 #body should look as follows 
@@ -39,11 +38,7 @@ offset = {1:0, 2:3, 3:5, 4:24, 5:28, 6:31, 7:33, 8:38, 9:40, 10:44, 11:48, 12:51
 # This is also in pythonTODO 
 
  
-def calcoffset(genesequence): 
-    length = len(genesequence); 
-    length = length + 5; 
-    return length; 
- 
+
 def setupgen(num_organisms): 
     for i in range(1, num_organisms+1): 
         writec(howmany(10), 'habitat/test') 

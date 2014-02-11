@@ -19,6 +19,31 @@ d6 = {'w':'w', 'u':'u', 'd':'d'}
 d7 = {'1':'  1', '2':'  2', '3':'  3', '4':'  4', '5':'  5', '6':'  6', '7':'  7', '8':'  8', '9':'  9', 'R':'R()'}
 
 
+def get_replacement(num):
+    if num == 1:
+        temp = random.choice(d1.keys())
+        return [temp, d1[temp]]
+    if num in [4, 9]:
+        temp = random.choice(d2.keys())
+        return [temp, d2[temp]]
+    if num in [3, 7, 12, 16]:
+        temp = random.choice(d7.keys())
+        return [temp, d7[temp]]
+    if num in [5, 10, 14]:
+        temp = random.choice(d3.keys())
+        return [temp, d3[temp]]
+    if num in [2, 6, 11, 15]:
+        temp = random.choice(d4.keys())
+        return [temp, d4[temp]]
+    if num == 8:
+        temp = random.choice(d5.keys())
+        return [temp, d5[temp]]
+    if num == 13:
+        temp = random.choice(d6.keys())
+        return [temp, d6[temp]]
+
+
+
 # Takes in a gene sequence and returns an array of tokens with the opcount for one loop as the last token
 def translategene(astring):
 	newstring = ''
