@@ -30,7 +30,7 @@ def testgene(org, arraylist, env):
                 firstline = False 
             else: 
                 print line, 
-        if org.ops[i] > env.pressure:
+        if org.ops[i] >= env.pressure:
             if env.penalty != -1:
                 org.ops[i] += env.penalty
             else:
