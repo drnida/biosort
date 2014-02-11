@@ -34,6 +34,8 @@ def gen_begin(env, generation):
 # directory that was found in the "gen_begin" method. 
 def add_organism_log(env, org, generation): 
     log_file = './logs/log.txt' 
+    if not os.path.exists('./logs/'):
+        os.makedirs('./logs/')
     log = open(log_file, 'a')
     logout = "G" + str(generation) + '\t'
     if org.avgops > env.pressure:
