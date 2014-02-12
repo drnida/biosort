@@ -68,7 +68,7 @@ def CreateEnvironment():
             pass
         for y in range(1, kids_per_breeder+1):
             try:
-                os.mkdir("./habitat/breeder" + str(x)+ "/specimen" + str(y))
+                os.mkdir("./habitat/breeder" + str(x)+ "/progeny" + str(y))
             except:
                 pass
     return env

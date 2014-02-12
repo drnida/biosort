@@ -59,7 +59,7 @@ def setupgen(env):
         writec(howmany(10), i) 
 
 # Takes in environment and first successful organism
-"""def Prep_First_Generation(org, env):
+def Prep_First_Generation(org, env):
     # Start our Bfolder array
     folders = []
     org.folder = "B_1"
@@ -75,7 +75,7 @@ def setupgen(env):
         writec(folders[0].location, folders[0].org.genesequence, env.pressure)
         for y in range(0, env.kids):
             temporg = Organism(makegene(random.randint(1, env.maxgenes+1))
-            temporg.folder = "S_"+str(y+1)+"_B_"+str(x+1)
+            temporg.folder = "P_"+str(y+1)+"_B_"+str(x+1)
             temporg.is_primeval = True
             folders[x].kids[y].org = temporg
             writec(folders[x].kids[y].location, folders[x].kids[y].org.genesequence, env.pressure)
@@ -87,7 +87,7 @@ def setupgen(env):
         except:
             print "Error copying first gen"
         temporg = Organism(org_list[0].genesequence)
-        temporg.folder = "S_"+str(x+1)+"_`B_0"
+        temporg.folder = "P_"+str(x+1)+"_`B_0"
         temporg.is_primeval = False
         folders[0].kids[x].org = temporg
         mutate(folders[0].kids[x].org, env.mutations+env.adds*x, env.weight, env.pressure, env.maxgenes)
@@ -96,4 +96,4 @@ def Start_Gen(folders, env):
     for x in range(env.breeders):
         
 
-def End_Gen(folders, env):"""
+def End_Gen(folders, env):
