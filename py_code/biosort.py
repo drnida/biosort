@@ -47,8 +47,9 @@ def setupgen(num_organisms):
 # This will take in a class object containin the environment parameters
 def Start(env):
     ops = 0
+    org = ''
     while ops not in range(1, env.pressure+1):
-        org = makegene(random.randint(1, env.maxgenes))
+        org = makegene(random.randint(1, env.maxgenes+1))
         org.folder = "breeder1"
         arraylist = []
         for i in range(env.runs):

@@ -28,6 +28,9 @@ num_mutations = 1
 #   would have 1 mutation, the second would have 2, etc
 num_add_mutations = 1
 
+#As this increases the probabiliy of deleting a gene increases and adding genes decreases
+mutation_weight = 50
+
 [pressure]
 #Starting pressure
 start_pressure = 1000000

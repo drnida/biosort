@@ -5,7 +5,7 @@ import os
 import subprocess
 
 class Environment:
-    def __init__(self, ge, ru, ra, br, ki, mu, ad, pr, ma, ar, pe, na):
+    def __init__(self, ge, ru, ra, br, ki, mu, ad, pr, ma, ar, pe, na, we):
         self.gens = ge
         self.runs = ru
         self.rands = ra
@@ -18,6 +18,7 @@ class Environment:
         self.arraysize = ar
         self.penalty = pe
         self.name = na
+        self.weight = we
 
 def CreateEnvironment():
 
@@ -50,24 +51,24 @@ def CreateEnvironment():
     #sim name
     name = config.get('name', 'sim_name')
 
-    print num_breeders
-    print kids_per_breeder
+    #probability
+    weight = config.get('probability', 'weight');
 
-    env = Environment(num_generations, runs_per_generation, num_random, num_breeders, kids_per_breeder, num_mutations, num_add_mutations, start_pressure, gene_max, array_size, penalty, name)
+    env = Environment(num_generations, runs_per_generation, num_random, num_breeders, kids_per_breeder, num_mutations, num_add_mutations, start_pressure, gene_max, array_size, penalty, name, weight)
 
     if not os.path.isdir('./habitat'):
         os.mkdir('./habitat')
 
     subprocess.call('g++ -c -o ./habitat/biosort.o ./c_code/biosort.cpp -g', shell = True) 
 
-    for x in range(0, num_breeders):
+    for x in range(1, num_breeders+1):
         try:
-            os.mkdir("./habitat/breeder" + str(x + 1))
+            os.mkdir("./habitat/breeder" + str(x))
         except:
             pass
-    for x in range(num_breeders, (num_breeders + num_breeders * kids_per_breeder)):
-        try:
-            os.mkdir("./habitat/specimen" + str(x + 1))
-        except:
-            pass
+        for y in range(1, kids_per_breeder+1):
+            try:
+                os.mkdir("./habitat/breeder" + str(x)+ "/specimen" + str(y))
+            except:
+                pass
     return env
