@@ -59,7 +59,7 @@ def setupgen(env):
         writec(howmany(10), i) 
 
 # Takes in environment and first successful organism
-def Prep_First_Generation(org, env):
+"""def Prep_First_Generation(org, env):
     # Start our Bfolder array
     folders = []
     org.folder = "B_1"
@@ -96,4 +96,4 @@ def Start_Gen(folders, env):
     for x in range(env.breeders):
         
 
-def End_Gen(folders, env):
+def End_Gen(folders, env):"""
