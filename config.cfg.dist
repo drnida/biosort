@@ -44,5 +44,8 @@ gene_max = 10
 [array]
 array_size = 8
 
+[probability]
+weight = 50
+
 [name]
 sim_name = "FML"
