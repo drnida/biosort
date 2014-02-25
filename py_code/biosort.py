@@ -50,12 +50,22 @@ def Start(env):
     org = ''
     while ops not in range(1, env.pressure+1):
         org = makegene(random.randint(1, env.maxgenes+1))
-        org.folder = "breeder1"
+        org.folder = "breeder1/"
         arraylist = []
         for i in range(env.runs):
             arraylist.append(make_list(env.arraysize))
         testgene(org, arraylist, env)
         add_organism_log(env, org, 0)
         ops = org.avgops
+
+    org.lineage_id = env.lineage_counter
+    env.lineage_counter += 1
+    folders = Prep_First_Generation(org, env)
+    results = Run_Gen(folders, env)
+    Log_Gen(results, env)
+    for x in range(env.generations-1):
+        folders = Setup_Gen(folders, results, env)
+        results = Run_Gen(folders, env)
+        Log_Gen(results, env)
 
 Start(CreateEnvironment()) 

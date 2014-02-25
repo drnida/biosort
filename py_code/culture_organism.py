@@ -13,14 +13,14 @@ def testgene(org, arraylist, env):
 
     opcount_counter = 0 
     total_opcount = 0  
-    subprocess.call('g++ ./habitat/' + org.folder + '/*.cpp ./habitat/biosort.o -o ./habitat/' + org.folder + '/organism.out -g', shell = True) 
+    subprocess.call('g++ ./habitat/' + org.folder + '/*.cpp ./habitat/biosort.o -o ./habitat/' + org.folder + 'organism.out -g', shell = True) 
      
     # Runs an organism however many times we want 
     for i in range(env.runs):
         array = ' '.join(str(x) for x in arraylist[i])
-        command = './habitat/' + org.folder + '/organism.out '+array
+        command = './habitat/' + org.folder + 'organism.out '+array
         opcount = subprocess.Popen(command, stdin = PIPE, stdout = PIPE, stderr = PIPE, bufsize = 1, shell = True) 
-         
+      
         # Getting opcount and adding to total 
         firstline = True
         for line in iter(opcount.stdout.readline, ''): 
@@ -29,7 +29,7 @@ def testgene(org, arraylist, env):
                 print "Ops: " + line
                 firstline = False 
             else: 
-                print line, 
+                print line 
         if org.ops[i] >= env.pressure:
             if env.penalty != -1:
                 org.ops[i] += env.penalty

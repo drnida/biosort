@@ -19,6 +19,7 @@ class Environment:
         self.penalty = pe
         self.name = na
         self.weight = we
+        self.lineage_counter = 1
 
 def CreateEnvironment():
 
