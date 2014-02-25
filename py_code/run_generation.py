@@ -1,5 +1,6 @@
 import os 
 import random
+import set_environment
 from shutil import copy
 import folder
 from subprocess import Popen, PIPE
@@ -11,32 +12,18 @@ def make_list(x):
  
 
 
-def gen_begin(env, generation):  
-    output = '' 
-     
-    # Variable for the loop 
-    i = 1 
-    opcount = 0 
-    #gen_end() to write out log file 
-     
-    # Runs the loop however many number of organisms is specified 
-    #for i in range(1, env.breeders+1): 
-	#testgene("./habitat/breeder"+i, 
-	
-    # Grabbing the gene sequence 
-    #organism = open(speclocation+'/organism.cpp') 
-	#genesequence = organism.readline() 
-	#genesequence = genesequence[2:-3] 
-	 
-	# Adding organism to log file 
-	#add_organism_log(env, genesequence, mean_opcount, generation) 
-    #gen_end() to write out log file 
- 
- 
+
 # Adds an organism's results to log file. The log file is in the current working 
 # directory that was found in the "gen_begin" method. 
 def add_organism_log(env, org): 
     logout = "G" + str(env.generation) + ','
+
+def add_organism_log(env, org, generation): 
+    log_file = './logs/log.txt' 
+    if not os.path.exists('./logs/'):
+        os.makedirs('./logs/')
+    log = open(log_file, 'a')
+    logout = "G" + str(generation) + '\t'
     if org.avgops > env.pressure:
         logout += 'F' + ',' 
     else:
@@ -51,6 +38,15 @@ def add_organism_log(env, org):
 def setupgen(env): 
     for i in range(1, num_organisms+1): 
         writec(howmany(10), i) 
+    log.write(logout)
+        
+    log.close() 
+
+
+
+#def setupgen(env): 
+#    for i in range(1, num_organisms+1): 
+#        writec(howmany(10), i) 
 
 # Takes in environment and first successful organism
 def Prep_First_Generation(org, env):
@@ -79,7 +75,7 @@ def Prep_First_Generation(org, env):
     # Spawn kids off winner
     for x in range(0, env.kids):
         try:
-            copy(folders[0].location+"organism.cpp", folders[0].progeny[x].path) # copy the gene from its parent to the kid
+            copy(folders[0].path+"organism.cpp", folders[0].progeny[x].path) # copy the gene from its parent to the kid
         except:
             print "Error copying first gen"
         temporg = Organism(org_list[0].genesequence) # create a new organism based off parent
@@ -114,12 +110,13 @@ def Run_Gen(folders, env):
                         bnum = ((i-env.breeders)//env.kids)+1
                         folders[bnum].progeny[i-env.breeders-(bnum*env.kids)+1.org.ops.append(int(line))
                     firstline = False
-
-    # Time to sum the ops for the gen
+   # Time to sum the ops for the gen
     for bnum in range(env.breeders):
         count_ops(folders[bnum].org, env)
         for pnum in range(env.kids):
             count_ops(folders[bnum].progeny[pnum].org, env)
+
+    return arraylist
 
 
 def count_ops(org, env):
@@ -159,8 +156,44 @@ def Log_Gen(folders, arrays, env):
     log.close() 
     env.current_log_size += len(logout) #fix logfile size
 
-def Setup_Gen(folders, env):
+def Setup_Gen(folders, arraylist, env):
    #Sort by avg ops
+   labtable = []
+   for bnum in range(env.breeders):
+       labtable.append(folders[bnum].org)
+       for pnum in range(env.kids):
+           labtable.append(folders[bnum].progeny[pnum].org)
+
+   labtable.sort(key=lambda subject: subject.avgops, reverse = False)
+
+   #set primeval status and call log function
+   for x in range(env.breeders):
+       if labtable[x] < env.pressure:
+           labtable[x].is_primeval = False
+       else:
+           break
+
+   #Log_Gen(folders, arraylist, env)
+
    #Set new pressure
+   num = folders[env.breeders-1].org.avgops*num
+   if num < env.pressure:
+       env.pressure = num
    #Put orgs in correct folders for breeders
+   for bnum in range(env.breeders):  
+            folders[bnum].org = labtable[bnum]
+            folders[bnum].org.folder = folders[bnum].path
+            folders[bnum].org.logloc = "B_"+str(bnum+1)
    #Spawn kids
+   for bnum in range(env.breeders):
+       if folder[bnum].org.is_primeval == False:
+            for pnum in range(env.kids):
+                copy(folders[bnum].path+"organism.cpp", folders[bnum].progeny[pnum].path)
+                mutate(folders[bnum].kids[pnum].org, env.mutations+env.adds*x, env.weight, env.pressure, env.maxgenes) # mutate the gene and write mutation to file
+       else:
+           folders[bnum].org.genesequence = makegene(random.randint(1, env.maxgenes+1))
+           writec(folders[bnum].location, folders[bnum].org.genesequence, env.pressure) # write out the file
+           for pnum in range(env.kids):
+                folders[bnum].progeny[pnum].org.genesequence = makegene(random.randint(1, env.maxgenes+1))
+                writec(folders[bnum].progeny[pnum].location, folders[bnum].org.genesequence, env.pressure) # write out the file
+                
