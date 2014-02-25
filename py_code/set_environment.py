@@ -19,7 +19,11 @@ class Environment:
         self.penalty = pe
         self.name = na
         self.weight = we
+        #logging functionality
         self.lineage_counter = 1
+        self.lognum = 0
+        self.current_log_size = 0
+        self.logsize = 
 
 def CreateEnvironment():
 

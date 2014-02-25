@@ -35,27 +35,19 @@ def gen_begin(env, generation):
  
 # Adds an organism's results to log file. The log file is in the current working 
 # directory that was found in the "gen_begin" method. 
-def add_organism_log(env, org, generation): 
-    log_file = './logs/log.txt' 
-    if not os.path.exists('./logs/'):
-        os.makedirs('./logs/')
-    log = open(log_file, 'a')
-    logout = "G" + str(generation) + '\t'
+def add_organism_log(env, org): 
+    logout = "G" + str(env.generation) + ','
     if org.avgops > env.pressure:
-        logout += 'F' + '\t' 
+        logout += 'F' + ',' 
     else:
-        logout += 'S' + '\t'
+        logout += 'S' + ','
     
-    logout += str(org.avgops) + '\t'\
-    + org.folder + '\t'\
-    + org.genesequence + '\n' 
+    logout += str(org.avgops) + ','\
+    + str(org.lineage_id) + ','\
+    + org.logloc + ','\
+    + org.genesequence + ',' 
     
-    log.write(logout)
-        
-    log.close() 
-
-
-
+    return logout
 def setupgen(env): 
     for i in range(1, num_organisms+1): 
         writec(howmany(10), i) 
@@ -137,7 +129,35 @@ def count_ops(org, env):
     org.avgops = total_opcount/env.runs
             
 
-def Log_Gen(folders, env):
+def Log_Gen(folders, arrays, env):
+    
+    logout = ""
+    for elem in folders: #for breeder folders
+        if elem.org.is_primeval == False: #log
+            logout += add_organism_log(env, elem.org) + '\n'
+    for elem in folders:
+        for subelem in progeny: #for progeny folders
+            if subelem.org.is_primeval = False: #log
+                logout += add_organism_log(env, subelem.org)
+    #adds arrays to logfile
+    for elem in arrays:
+        logout += '\nA{'
+        for number in elem:
+            logout += str(number) + ','
+        logout = logout[:-1] + '}'
+    logout += '\n'
+    
+    #if adding this log would make log file too big
+    if len(logout) + env.current_log_size >= env.logsize:
+        env.current_log_size = 0 #then reset logfile size
+        env.lognum += 1 #then increment logfile
+    log_file = './logs/log' + env.lognum + '.txt' 
+    if not os.path.exists('./logs/'):
+        os.makedirs('./logs/')
+    log = open(log_file, 'a')
+    log.write(logout)
+    log.close() 
+    env.current_log_size += len(logout) #fix logfile size
 
 def Setup_Gen(folders, env):
    #Sort by avg ops
