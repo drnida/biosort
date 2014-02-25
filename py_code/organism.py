@@ -7,7 +7,7 @@ class Organism:
         self.ops = [] 
         self.survival = 0
         self.folder = "N"
-        self.logloc = 0
+        self.logloc = "N"
         self.is_primeval = True
         self.lineage_id = 0 #every time is_primeval is set to false
                             #(ie. every time a totally random gene
