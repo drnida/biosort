@@ -35,14 +35,13 @@ def add_organism_log(env, org, generation):
     + org.genesequence + ',' 
     
     return logout
+
 def setupgen(env): 
     for i in range(1, num_organisms+1): 
         writec(howmany(10), i) 
     log.write(logout)
         
     log.close() 
-
-
 
 #def setupgen(env): 
 #    for i in range(1, num_organisms+1): 
@@ -172,8 +171,6 @@ def Setup_Gen(folders, arraylist, env):
            labtable[x].is_primeval = False
        else:
            break
-
-   #Log_Gen(folders, arraylist, env)
 
    #Set new pressure
    num = folders[env.breeders-1].org.avgops*num
