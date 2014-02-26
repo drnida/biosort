@@ -28,13 +28,13 @@ def create_gene(org, pivot, file_location, pressure):
     newgene = roll4d6()
     newsequence = org.genesequence[:pivot]+newgene+org.genesequence[pivot:]
     org.genesequence = newsequence
-    writec(file_location, org, pressure)
+#    writec(file_location, org, pressure)
 
 # Removes a gene who begins at index "start" in the genesequence
 def delete_gene(org, start, file_location, pressure):
     newsequence = org.genesequence[:start]+org.genesequence[start+17:]
     org.genesequence = newsequence
-    writec(file_location, org, pressure)
+ #   writec(file_location, org, pressure)
 
 
 # Copies the gene at index source to index dest in the genesequence
@@ -42,7 +42,7 @@ def copy_gene(org, source, dest, file_location, pressure):
     newstring = org.genesequence[source:source+17]
     newstring = org.genesequence[:dest]+newstring+org.genesequence[dest:]
     org.genesequence = newstring
-    writec(file_location, org, pressure)
+  #  writec(file_location, org, pressure)
     
 
 # Mutates a gene with either point mutations or gene mutations
@@ -99,7 +99,8 @@ def mutate(org, num_mutations, weight, pressure, max_genes):
             offset = index%17
             # The case for changing an open paren or an a[, (requires 2 seeks in file)
             if offset in [4, 9]:
-                point_mutate(file_location, genenum, offset+(offset/9), replace_with[1], org.genesequence, 1)
+                print "cool beans bro"
+    #            point_mutate(file_location, genenum, offset+(offset/9), replace_with[1], org.genesequence, 1)
             # All other cases, we calculate shift to indicate if the gene index does not match
             # the mutable field location due to a gene not having closed paren or closed bracket
             else:
@@ -109,7 +110,7 @@ def mutate(org, num_mutations, weight, pressure, max_genes):
                     shift = 1
                 if offset in [13, 14, 15, 16]:
                     shift = 2
-                point_mutate(file_location, genenum, offset+shift, replace_with[1], org.genesequence, 0)
+   #             point_mutate(file_location, genenum, offset+shift, replace_with[1], org.genesequence, 0)
 
 # Mutates one or two mutable fields in the organism, takes in
 # file location, how many genes into the organism the mutation should occur, how many
