@@ -7,7 +7,7 @@ from run_generation import add_organism_log, make_list, Prep_First_Generation, S
 from culture_organism import testgene
 import random
 from set_environment import CreateEnvironment
-
+import subprocess
  
  
 #body should look as follows 
