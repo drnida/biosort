@@ -3,7 +3,7 @@
 
 [generation]
 #Number of generations
-num_generations= 100
+num_generations= 10
 
 #Runs per generation
 runs_per_generation = 4
@@ -50,3 +50,6 @@ weight = 50
 
 [name]
 sim_name = "FML"
+
+[logging]
+logsize = 102400
