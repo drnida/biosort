@@ -13,7 +13,7 @@ def testgene(org, arraylist, env):
 
     opcount_counter = 0 
     total_opcount = 0  
-    subprocess.call('g++ ./habitat/' + org.folder + '/*.cpp ./habitat/biosort.o -o ./habitat/' + org.folder + 'organism.out -g', shell = True) 
+    subprocess.call('g++ ./habitat/' + org.folder + '*.cpp ./habitat/biosort.o -o ./habitat/' + org.folder + 'organism.out -g', shell = True) 
      
     # Runs an organism however many times we want 
     for i in range(env.runs):

@@ -19,7 +19,7 @@ def make_list(x):
 def add_organism_log(env, org): 
     logout = "G" + str(env.gennumber) + ','
 
-    if org.avgops > env.pressure:
+    if org.avgops >= env.pressure:
         logout += 'F' + ',' 
     else:
         logout += 'S' + ','
@@ -188,7 +188,7 @@ def Log_Gen(folders, rfolders, arrays, env):
         for number in elem:
             logout += str(number) + ','
         logout = logout[:-1] + '}\n'
-    #logout += '\n'
+    logout += "Pressure: " + str(env.pressure) + '\n'
     
     #if adding this log would make log file too big
     if len(logout) + env.current_log_size >= env.logsize:
