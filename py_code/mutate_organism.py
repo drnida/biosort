@@ -82,10 +82,8 @@ def mutate(org, num_mutations, weight, pressure, max_genes):
 
             # Delete gene, returns dead if we deleted the last gene in an organism
             else:
-                temporg = org
-                delete_gene(org, index, file_location, pressure)
-                if len(org.genesequence) < 17:
-                    org = temporg
+                if len(org.genesequence) > 17:
+                    delete_gene(org, index, file_location, pressure)
         
         # The case for point mutation
         else:

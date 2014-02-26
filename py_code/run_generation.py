@@ -215,6 +215,7 @@ def Setup_Gen(folders, rfolders, arraylist, env):
 
    labtable.sort(key=lambda subject: env.pressure if subject.avgops> env.pressure else subject.avgops, reverse = False)
 
+ 
    #set primeval status and call log function
    for x in range(env.breeders):
        if labtable[x].avgops < env.pressure:
