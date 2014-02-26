@@ -135,13 +135,3 @@ def point_mutate(file_location, gene_number, off, change, sequence, flag):
             f.write(')')
     f.close()
 
-
-# Test Case
-string = "g0+Rb9%9!pr%4u0-6g7-3b5/9!p7/5u6-2g1*1p0%7Gbi*2u5-3g9-3b2%3!pi/4d8%3"
-org = Organism(string)
-org.folder = "./test/"
-writec(org.folder, string, 1000)
-writec("./test1", string, 1000)
-val = mutate(org, 1, 1, 1000, 10)
-print val
-

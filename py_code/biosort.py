@@ -3,7 +3,7 @@
 import os 
 import shlex 
 from create_gene import makegene
-from run_generation import make_list, add_organism_log 
+from run_generation import add_organism_log, make_list, Prep_First_Generation, Setup_Gen, Run_Gen 
 from culture_organism import testgene
 import random
 from set_environment import CreateEnvironment
@@ -55,15 +55,14 @@ def Start(env):
         for i in range(env.runs):
             arraylist.append(make_list(env.arraysize))
         testgene(org, arraylist, env)
-        add_organism_log(env, org, 0)
         ops = org.avgops
 
     org.lineage_id = env.lineage_counter
     env.lineage_counter += 1
     folders = Prep_First_Generation(org, env)
     arraylist = Run_Gen(folders, env)
-    for x in range(env.generations-1):
-        Setup_Gen(folders, results, env)
+    for x in range(env.gens-1):
+        Setup_Gen(folders, arraylist, env)
         arraylist = Run_Gen(folders, env)
         #Log_Gen(folders, arraylist, env)
 

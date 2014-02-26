@@ -9,7 +9,7 @@ import subprocess
 #This is so that we can run a setup loop in rungen and then a test loop
 #After that set up the loops in rungen and create a system to tell if they shoul be randomized or mutated from another organism
 def testgene(org, arraylist, env):
-    writec("./habitat/" +org.folder, org.genesequence, env.pressure)
+    writec("./habitat/" +org.folder, org, env.pressure)
 
     opcount_counter = 0 
     total_opcount = 0  

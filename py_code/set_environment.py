@@ -5,7 +5,7 @@ import os
 import subprocess
 
 class Environment:
-    def __init__(self, ge, ru, ra, br, ki, mu, ad, pr, ma, ar, pe, na, we, bu):
+    def __init__(self, ge, ru, ra, br, ki, mu, ad, pr, ma, ar, pe, na, we, bu, ls):
         self.gens = ge #number of gens to run
         self.runs = ru #number of runs per gen
         self.rands = ra #number of random things to run NYI
@@ -25,7 +25,7 @@ class Environment:
         self.lineage_counter = 1
         self.lognum = 0
         self.current_log_size = 0
-        self.logsize = 
+        self.logsize = ls 
 
 def CreateEnvironment():
 
@@ -60,9 +60,12 @@ def CreateEnvironment():
     name = config.get('name', 'sim_name')
 
     #probability
-    weight = config.get('probability', 'weight');
+    weight = config.getint('probability', 'weight');
 
-    env = Environment(num_generations, runs_per_generation, num_random, num_breeders, kids_per_breeder, num_mutations, num_add_mutations, start_pressure, gene_max, array_size, penalty, name, weight, buff)
+    #logging
+    logsize = config.getint('logging', 'logsize');
+
+    env = Environment(num_generations, runs_per_generation, num_random, num_breeders, kids_per_breeder, num_mutations, num_add_mutations, start_pressure, gene_max, array_size, penalty, name, weight, buff, logsize)
 
     if not os.path.isdir('./habitat'):
         os.mkdir('./habitat')
