@@ -19,7 +19,7 @@ class Environment:
         self.penalty = pe #penalty added if organism does not meet pressure
         self.name = na #name of program run
         self.weight = we #percentage chance to delete rahther than add when doing gene mutation
-        self.buff = (bu/100)+1 #% of buffer to meet in order to reduce pressure (default 50)
+        self.buff = (float(bu)/100.0)+1.0 #% of buffer to meet in order to reduce pressure (default 50)
         self.gennumber = 0
         #logging functionality
         self.lineage_counter = 1

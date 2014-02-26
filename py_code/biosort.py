@@ -61,9 +61,8 @@ def Start(env):
     env.lineage_counter += 1
     folders = Prep_First_Generation(org, env)
     arraylist = Run_Gen(folders, env)
-    for x in range(env.gens-1):
+    for x in range(env.gens):
         Setup_Gen(folders, arraylist, env)
         arraylist = Run_Gen(folders, env)
-        #Log_Gen(folders, arraylist, env)
 
 Start(CreateEnvironment()) 

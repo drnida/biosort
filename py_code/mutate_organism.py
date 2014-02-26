@@ -28,13 +28,13 @@ def create_gene(org, pivot, file_location, pressure):
     newgene = roll4d6()
     newsequence = org.genesequence[:pivot]+newgene+org.genesequence[pivot:]
     org.genesequence = newsequence
-    writec(file_location, org.genesequence, pressure)
+    writec(file_location, org, pressure)
 
 # Removes a gene who begins at index "start" in the genesequence
 def delete_gene(org, start, file_location, pressure):
     newsequence = org.genesequence[:start]+org.genesequence[start+17:]
     org.genesequence = newsequence
-    writec(file_location, org.genesequence, pressure)
+    writec(file_location, org, pressure)
 
 
 # Copies the gene at index source to index dest in the genesequence
@@ -42,7 +42,7 @@ def copy_gene(org, source, dest, file_location, pressure):
     newstring = org.genesequence[source:source+17]
     newstring = org.genesequence[:dest]+newstring+org.genesequence[dest:]
     org.genesequence = newstring
-    writec(file_location, org.genesequence, pressure)
+    writec(file_location, org, pressure)
     
 
 # Mutates a gene with either point mutations or gene mutations
@@ -57,7 +57,7 @@ def mutate(org, num_mutations, weight, pressure, max_genes):
 
         # Variable setting
         length = len(org.genesequence)
-        index = 9 #random.randint(0, length-1)
+        index = random.randint(0, length-1)
         shift = 0 # For shifting offset in the case of offset being after ) or ]
         
         # The case for gene mutation
@@ -65,7 +65,7 @@ def mutate(org, num_mutations, weight, pressure, max_genes):
             delete_chance = random.randint(1, 100)
 
             # Add Gene (copy or create random new one)
-            if k > delete_chance and length/17 < max_genes:
+            if weight > delete_chance and length/17 < max_genes:
                 if random.randint(1,2) == 1:
                     num = (len(org.genesequence)/17)+1
                     num = (random.randint(0, num))*17

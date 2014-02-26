@@ -49,7 +49,8 @@ def add_organism_log(env, org):
 def Prep_First_Generation(org, env):
     # Start our Bfolder array
     folders = []
-    org.folder = "B_1"
+    org.logloc = "B_1"
+    org.folder = "./habitat/breeder1/"
     org.is_primeval = False
     folders.append(bfolder("./habitat/breeder1/", env.kids, org))
     call('cp ./habitat/biosort.h ./habitat/breeder1/biosort.h', shell=True)
@@ -82,7 +83,8 @@ def Prep_First_Generation(org, env):
             print "Error copying first gen"
         temporg = Organism(folders[0].org.genesequence) # create a new organism based off parent
         temporg.folder = folders[0].progeny[x].path # set organism folder
-        temporg.logloc = "P_"+str(x+1)+"_B_0" # set log file representation of folder
+        temporg.logloc = "P_"+str(x+1)+"_B_1" # set log file representation of folder
+        temporg.lineage_id = 1
         temporg.is_primeval = False # Did not come from random, not primeval
         folders[0].progeny[x].org = temporg # place org in folder
         mutate(folders[0].progeny[x].org, env.mutations+env.adds*x, env.weight, env.pressure, env.maxgenes) # mutate the gene and write mutation to file
@@ -95,12 +97,15 @@ def Run_Gen(folders, env):
     for run in range(env.runs):
         arraylist.append(make_list(env.arraysize))
         array = ' '.join(str(x) for x in arraylist[run])
+        print array
         labtable = [None for x in range(env.breeders+env.breeders*env.kids)]
         for bnum in range(env.breeders):
             command = folders[bnum].path+"organism.out "+array
+            print command
             labtable[bnum] = Popen(command, stdin = PIPE, stdout = PIPE, stderr = PIPE, bufsize = 1, shell = True)
             for pnum in range(env.kids):
                 command = folders[bnum].progeny[pnum].path+"organism.out "+array
+                print command
                 #                               bnum-1  pnum-1
                 labtable[env.breeders+env.kids*(bnum)+(pnum)] = Popen(command, stdin = PIPE, stdout = PIPE, stderr = PIPE, bufsize = 1, shell = True)
         for subject in range(env.breeders+env.breeders*env.kids):
@@ -108,10 +113,10 @@ def Run_Gen(folders, env):
             for line in iter(labtable[subject].stdout.readline, ''):
                 if firstline == True:
                     if subject in range(env.breeders):
-                        print "Ops: "+str(line)
+                        #print "Ops: "+str(line)
                         folders[subject].org.ops.append(int(line))
                     else:
-                        print "Ops: "+str(line)
+                        #print "Ops: "+str(line)
                         bnum = ((subject-env.breeders)//env.kids)
                         folders[bnum].progeny[subject-env.breeders-(bnum*env.kids)].org.ops.append(int(line))
                     firstline = False
@@ -126,13 +131,20 @@ def Run_Gen(folders, env):
 
 def count_ops(org, env):
     total_opcount = 0
-    print org.ops
+    #print org.ops
     for run in range(env.runs):
         total_opcount += org.ops[run]
     org.avgops = total_opcount/env.runs
+    org.ops = []
             
 
 def Log_Gen(folders, arrays, env):
+    for elem in folders:
+        print elem.path
+        print elem.org.logloc
+        for subelem in elem.progeny:
+            print subelem.path
+            print subelem.org.logloc
     
     logout = ""
     for elem in folders: #for breeder folders
@@ -174,19 +186,20 @@ def Setup_Gen(folders, arraylist, env):
 
    #set primeval status and call log function
    for x in range(env.breeders):
-       if labtable[x] < env.pressure:
+       if labtable[x].avgops < env.pressure:
            if labtable[x].is_primeval == True:
                labtable[x].is_primeval = False
                labtable[x].lineage_id = env.lineage_counter
                env.lineage_counter += 1
        else:
            break
-   
+   print "Pressure: "+str(env.pressure)
+   print "Buff: "+str(env.buff)
    Log_Gen(folders, arraylist, env)
    env.gennumber += 1
    
    #Set new pressure
-   num = folders[env.breeders-1].org.avgops*env.buff
+   num = labtable[env.breeders-1].avgops*env.buff
    if num < env.pressure:
        env.pressure = num
    #Put orgs in correct folders for breeders
@@ -198,15 +211,23 @@ def Setup_Gen(folders, arraylist, env):
    for bnum in range(env.breeders):
        if folders[bnum].org.is_primeval == False:
             for pnum in range(env.kids):
+                folders[bnum].progeny[pnum].org = Organism(folders[bnum].org.genesequence)
+                folders[bnum].progeny[pnum].org.folder = folders[bnum].progeny[pnum].path
+                folders[bnum].progeny[pnum].org.logloc = "P_"+str(pnum+1)+"_B_"+str(bnum+1)
                 copy(folders[bnum].path+"organism.cpp", folders[bnum].progeny[pnum].path)
                 mutate(folders[bnum].progeny[pnum].org, env.mutations+env.adds*x, env.weight, env.pressure, env.maxgenes) # mutate the gene and write mutation to file
                 folders[bnum].progeny[pnum].org.lineage_id = folders[bnum].org.lineage_id
+                folders[bnum].progeny[pnum].org.is_primeval = False
        else:
-           folders[bnum].org.genesequence = makegene(random.randint(1, env.maxgenes+1))
-           writec(folders[bnum].location, folders[bnum].org.genesequence, env.pressure) # write out the file
+           folders[bnum].org = Organism(makegene(random.randint(1, env.maxgenes+1)))
+           folders[bnum].org.location = folders[bnum].path
+           folders[bnum].org.logloc = "B_"+str(bnum+1)
+           writec(folders[bnum].org.location, folders[bnum].org, env.pressure) # write out the file
            call('g++ '+ folders[bnum].path + '*.cpp ./habitat/biosort.o -o ' + folders[x].path + 'organism.out -g', shell = True) 
            for pnum in range(env.kids):
-                folders[bnum].progeny[pnum].org.genesequence = makegene(random.randint(1, env.maxgenes+1))
-                writec(folders[bnum].progeny[pnum].location, folders[bnum].org.genesequence, env.pressure) # write out the file
+                folders[bnum].progeny[pnum].org = Organism(makegene(random.randint(1, env.maxgenes+1)))
+                folders[bnum].progeny[pnum].org.folder = folders[bnum].progeny[pnum].path
+                folders[bnum].progeny[pnum].org.logloc = "P_"+str(pnum+1)+"_B_"+str(bnum+1)
+                writec(folders[bnum].progeny[pnum].org.location, folders[bnum].org, env.pressure) # write out the file
                 call('g++ '+ folders[bnum].progney[pnum].path + '*.cpp ./habitat/biosort.o -o ' + folders[bnum].progeny[pnum].path + 'organism.out -g', shell = True) 
                 
