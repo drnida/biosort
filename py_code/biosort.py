@@ -68,8 +68,8 @@ def Start(env):
         arraylist = Run_Gen(folders, rfolders, env)
 
     path = env.name + str(int(time.time())) + "/"
-    subprocess.call("mv log/log* log/" + path)
-    subprocess.call("cp config.cfg log/" + path)
+    subprocess.call("mv log/log* log/" + path, shell = True)
+    subprocess.call("cp config.cfg log/" + path, shell = True)
 
-subprocess.call("rm log/log*")
+subprocess.call("rm log/log*", shell = True)
 Start(CreateEnvironment()) 
