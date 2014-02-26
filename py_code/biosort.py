@@ -68,6 +68,10 @@ def Start(env):
         arraylist = Run_Gen(folders, rfolders, env)
 
     path = env.name + str(int(time.time())) + "/"
+    try:
+        subprocess.call("mkdir log/log* log/" + path, shell = True)
+    except:
+        pass
     subprocess.call("mv log/log* log/" + path, shell = True)
     subprocess.call("cp config.cfg log/" + path, shell = True)
 
