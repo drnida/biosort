@@ -8,7 +8,7 @@ from culture_organism import testgene
 import random
 from set_environment import CreateEnvironment
 import subprocess
- 
+import time 
  
 #body should look as follows 
 #do{ 

@@ -18,7 +18,6 @@ def make_list(x):
 # directory that was found in the "gen_begin" method. 
 def add_organism_log(env, org): 
     logout = "G" + str(env.gennumber) + ','
-
     if org.avgops >= env.pressure:
         logout += 'F' + ',' 
     else:
@@ -164,12 +163,12 @@ def count_ops(org, env):
             
 
 def Log_Gen(folders, rfolders, arrays, env):
-    for elem in folders:
-        print elem.path
-        print elem.org.logloc
-        for subelem in elem.progeny:
-            print subelem.path
-            print subelem.org.logloc
+    #for elem in folders:
+    #    print elem.path
+    #    print elem.org.logloc
+    #    for subelem in elem.progeny:
+    #        print subelem.path
+    #        print subelem.org.logloc
     
     logout = ""
     for elem in folders: #for breeder folders
@@ -201,6 +200,9 @@ def Log_Gen(folders, rfolders, arrays, env):
     log.write(logout)
     log.close() 
     env.current_log_size += len(logout) #fix logfile size
+    if env.gennumber % 25 == 0:
+        print "Generation "+str(env.gennumber)
+
 
 def Setup_Gen(folders, rfolders, arraylist, env):
    #Sort by avg ops

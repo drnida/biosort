@@ -57,7 +57,7 @@ def mutate(org, num_mutations, weight, pressure, max_genes):
 
         # Variable setting
         length = len(org.genesequence)
-        print "\n\nLENGTH: " + str(length) + '\n\n'
+        #print "\n\nLENGTH: " + str(length) + '\n\n'
         index = random.randint(0, length-1)
         shift = 0 # For shifting offset in the case of offset being after ) or ]
         
@@ -99,7 +99,7 @@ def mutate(org, num_mutations, weight, pressure, max_genes):
             offset = index%17
             # The case for changing an open paren or an a[, (requires 2 seeks in file)
             if offset in [4, 9]:
-                print "cool beans bro"
+                pass
     #            point_mutate(file_location, genenum, offset+(offset/9), replace_with[1], org.genesequence, 1)
             # All other cases, we calculate shift to indicate if the gene index does not match
             # the mutable field location due to a gene not having closed paren or closed bracket
