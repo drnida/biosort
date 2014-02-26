@@ -57,6 +57,7 @@ def mutate(org, num_mutations, weight, pressure, max_genes):
 
         # Variable setting
         length = len(org.genesequence)
+        print "\n\nLENGTH: " + str(length) + '\n\n'
         index = random.randint(0, length-1)
         shift = 0 # For shifting offset in the case of offset being after ) or ]
         
@@ -81,9 +82,10 @@ def mutate(org, num_mutations, weight, pressure, max_genes):
 
             # Delete gene, returns dead if we deleted the last gene in an organism
             else:
+                temporg = org
                 delete_gene(org, index, file_location, pressure)
-                if org.genesequence == '':
-                    return "dead"
+                if len(org.genesequence) < 17:
+                    org = temporg
         
         # The case for point mutation
         else:

@@ -3,14 +3,14 @@
 
 [generation]
 #Number of generations
-num_generations= 10
+num_generations= 100
 
 #Runs per generation
-runs_per_generation = 4
+runs_per_generation = 5
 
 [petri]
 #Number of dedicated random organisms
-num_random = 0
+num_random = 3
 
 #Number of breeders
 num_breeders = 2
@@ -34,7 +34,7 @@ mutation_weight = 50
 [pressure]
 #Starting pressure
 start_pressure = 1000000
-penalty = 500000
+penalty = 1
 buffer = 50
 
 

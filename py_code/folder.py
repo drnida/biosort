@@ -12,3 +12,7 @@ class pfolder:
         self.path = pa
         self.org = None
 
+class rfolder:
+    def __init__(self, pa):
+        self.path = pa
+        self.org = None

@@ -72,6 +72,12 @@ def CreateEnvironment():
 
     subprocess.call('g++ -c -o ./habitat/biosort.o ./c_code/biosort.cpp -g', shell = True) 
 
+    for rand in range(1, num_random+1):
+        try:
+            os.mkdir("./habitat/random"+str(rand))
+        except:
+            pass
+
     for x in range(1, num_breeders+1):
         try:
             os.mkdir("./habitat/breeder" + str(x))
