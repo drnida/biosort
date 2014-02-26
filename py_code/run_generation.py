@@ -205,13 +205,12 @@ def Log_Gen(folders, rfolders, arrays, env):
 def Setup_Gen(folders, rfolders, arraylist, env):
    #Sort by avg ops
    labtable = []
-   for rand in range(env.rands):
-       labtable.append(rfolders[rand].org)
-
    for bnum in range(env.breeders):
        labtable.append(folders[bnum].org)
        for pnum in range(env.kids):
            labtable.append(folders[bnum].progeny[pnum].org)
+   for rand in range(env.rands):
+       labtable.append(rfolders[rand].org)
 
    labtable.sort(key=lambda subject: env.pressure if subject.avgops> env.pressure else subject.avgops, reverse = False)
 
