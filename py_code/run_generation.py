@@ -137,14 +137,16 @@ def Run_Gen(folders, rfolders, env):
                         #print "Ops: "+str(line)
                         bnum = ((subject-env.breeders)//env.kids)
                         folders[bnum].progeny[subject-env.breeders-(bnum*env.kids)].org.ops.append(int(line))
-                    elif subject in range(10, 13):
+                    else:
                         rand = subject-(env.breeders+env.breeders*env.kids)
                         rfolders[rand].org.ops.append(int(line))
+
+
                     firstline = False
    # Time to sum the ops for the gen
     for rand in range(env.rands):
         count_ops(rfolders[rand].org, env)
-
+    
     for bnum in range(env.breeders):
         count_ops(folders[bnum].org, env)
         for pnum in range(env.kids):
