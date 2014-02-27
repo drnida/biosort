@@ -3,10 +3,10 @@
 
 [generation]
 #Number of generations
-num_generations= 100
+num_generations= 10000
 
 #Runs per generation
-runs_per_generation = 5
+runs_per_generation = 50
 
 [petri]
 #Number of dedicated random organisms
@@ -16,25 +16,23 @@ num_random = 3
 num_breeders = 2
 
 #Number of offspring per breeder 
-kids_per_breeder = 4
+kids_per_breeder = 2
 
 [mutation]
 #Base number of mutations per offspring
-num_mutations = 1
+num_mutations = 5
 
 #Additional mutations for successive offspring
 #   for example: if this is set to 1 and num_mutations
 #   is set to one, then the breeder's first child
 #   would have 1 mutation, the second would have 2, etc
-num_add_mutations = 1
+num_add_mutations = 10
 
-#As this increases the probabiliy of deleting a gene increases and adding genes decreases
-mutation_weight = 50
 
 [pressure]
 #Starting pressure
 start_pressure = 1000000
-penalty = 1
+penalty = 10000
 buffer = 50
 
 
@@ -46,10 +44,11 @@ gene_max = 10
 array_size = 8
 
 [probability]
-weight = 50
+#As this increases the probabiliy of deleting a gene increases and adding genes decreases
+weight = 33
 
 [name]
-sim_name = "FML"
+sim_name = "Mike's Random Mix"
 
 [logging]
 logsize = 102400
