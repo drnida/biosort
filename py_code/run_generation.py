@@ -1,6 +1,7 @@
 import os 
 import random
 import set_environment
+import sys
 from mutate_organism import mutate
 from transcribe_c import writec
 from create_gene import makegene
@@ -202,8 +203,9 @@ def Log_Gen(folders, rfolders, arrays, env):
     log.write(logout)
     log.close() 
     env.current_log_size += len(logout) #fix logfile size
-    if env.gennumber % 25 == 0:
-        print "Generation "+str(env.gennumber)
+    if env.gennumber % 5 == 0:
+        sys.stdout.write("Generation: %s\r" % env.gennumber)
+        sys.stdout.flush()
 
 
 def Setup_Gen(folders, rfolders, arraylist, env):
