@@ -69,11 +69,11 @@ def Start(env):
 
     path = env.name + str(int(time.time())) + "/"
     try:
-        subprocess.call("mkdir ./log/" + path, shell = True)
+        subprocess.call("mkdir ./logs/" + path, shell = True)
     except:
         pass
-    subprocess.call("mv ./log/log* ./log/" + path, shell = True)
-    subprocess.call("cp ./config.cfg ./log/" + path, shell = True)
+    subprocess.call("mv ./logs/log* ./logs/" + path, shell = True)
+    subprocess.call("cp ./config.cfg ./logs/" + path, shell = True)
 
 subprocess.call("rm ./log/log*", shell = True)
 Start(CreateEnvironment()) 
