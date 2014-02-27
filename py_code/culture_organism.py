@@ -23,14 +23,14 @@ def testgene(org, arraylist, env):
       
         # Getting opcount and adding to total 
         firstline = True
+        print "\nRun Start!"
         for line in iter(opcount.stdout.readline, ''):
-            print "\nRun Start!"
             if firstline == True: 
                 org.ops.append(int(line)) 
                 print "Ops: " + line[:-1]
                 firstline = False 
             else: 
-                print line +line[:-1]
+                print line[:-1]
         if org.ops[i] >= env.pressure:
             if env.penalty != -1:
                 org.ops[i] += env.penalty

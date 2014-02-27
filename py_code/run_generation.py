@@ -235,6 +235,8 @@ def Setup_Gen(folders, rfolders, arraylist, env):
    
    #Set new pressure
    num = labtable[env.breeders-1].avgops*env.buff
+   print "\nNum: "+str(num)
+   print "env.pressure: "+str(env.pressure)
    if num < env.pressure:
        env.pressure = num
    #Put orgs in correct folders for breeders
