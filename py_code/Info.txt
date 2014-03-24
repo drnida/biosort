@@ -1,0 +1,19 @@
+
+
+--------------------------------------------------
+Gene Structure:
+
+C code: (/* */ denotes information on what the mutable fields are)
+Individual gene has the following form 
+
+i=___ __ ___; /*1.0-9 or r() 2.math op 3.1-9 or R()*/ 
+v=a[i]; 
+if((__ ___ __ ___  /*1.( or a[ which sets 1 on next line 2.0-9, r(), i, or v, 3.*, /, -, % or // 4.0-9, r(), i or v*/ 
+_ %S)__  /*1.) or ] defined by 1 of last line 2.logical op*/
+(__ ___ __ ___ /*1.( or a[ which defines 1 on the next line 2.0-9, r(), i, or v 3.*, +, -, /, %, or // 4.0-9, r(), i, or v*/ 
+_ %S)) /*1.) or ] defined by 1 on last line 
+{ 
+_(( ___ __ ___  /*1.W, U, or D 2.0-9, r(), i, or v 3.+, -, /, %, or // 4.0-9, r(), i, or v*/
+)%S) 
+} 
+ 
