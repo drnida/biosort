@@ -8,39 +8,40 @@ import subprocess
 #The other to run it
 #This is so that we can run a setup loop in rungen and then a test loop
 #After that set up the loops in rungen and create a system to tell if they shoul be randomized or mutated from another organism
-def testgene(org, arraylist, env):
-    writec("./habitat/" +org.folder, org, env.pressure)
 
-    opcount_counter = 0 
-    total_opcount = 0  
+
+
+
+
+
+
+
+
+
+def testgene(org, arraylist, env):
+    #Creates organism.cpp file and compiles it
+    writec("./habitat/" +org.folder, org, env.pressure)
     subprocess.call('g++ ./habitat/' + org.folder + '*.cpp ./habitat/biosort.o -o ./habitat/' + org.folder + 'organism.out -g', shell = True) 
-     
-    # Runs an organism however many times we want 
+    
+
+    total_opcount = 0 #Sum of all individual opcounts   
+    #Runs an organism x times where x is the number of runs per generation
     for i in range(env.runs):
-        array = ' '.join(str(x) for x in arraylist[i])
-        command = './habitat/' + org.folder + 'organism.out '+array
-        opcount = subprocess.Popen(command, stdin = PIPE, stdout = PIPE, stderr = PIPE, bufsize = 1, shell = True) 
+        array = ' '.join(str(x) for x in arraylist[i]) #Pulls array to sort from the given arraylist.
+        command = './habitat/' + org.folder + 'organism.out '+array #Command to run organism on array from the command line
+        fileout = subprocess.Popen(command, stdin = PIPE, stdout = PIPE, stderr = PIPE, bufsize = 1, shell = True) #Retrieves the operations performed by the C++ before it ended 
       
-        # Getting opcount and adding to total 
-        firstline = True
-        print "\nRun Start!"
-        for line in iter(opcount.stdout.readline, ''):
-            if firstline == True: 
-                org.ops.append(int(line)) 
-                print "Ops: " + line[:-1]
-                firstline = False 
-            else: 
-                print line[:-1]
+        # Gets opcount and adding to total_opcount 
+        ops = fileout.stdout.readline() 
+        org.ops.append(int(ops)) 
+      
         if org.ops[i] >= env.pressure:
-            if env.penalty != -1:
-                org.ops[i] += env.penalty
-            else:
-                pass # should kill organism
+            org.ops[i] += env.penalty
 
         total_opcount += org.ops[i]
         
      
-	# Calculating mean number of ops 
-	org.avgops = total_opcount / env.runs 
-	 
+    # Calculating mean number of ops 
+    org.avgops = total_opcount / env.runs 
+    print "Ops: " + str(org.avgops)
     return
