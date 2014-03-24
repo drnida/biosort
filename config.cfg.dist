@@ -1,15 +1,15 @@
 #config.cfg
-
+#This is the biosort configuration file.
 
 [generation]
-#Number of generations
+#Number of generations before program exit
 num_generations= 10000
 
-#Runs per generation
+#Runs per generation: The number of sorts each organism performs before its fitness is determined
 runs_per_generation = 50
 
 [petri]
-#Number of dedicated random organisms
+#Number of permanently randomly generated organisms
 num_random = 3
 
 #Number of breeders
@@ -23,16 +23,19 @@ kids_per_breeder = 2
 num_mutations = 5
 
 #Additional mutations for successive offspring
-#   for example: if this is set to 1 and num_mutations
+#   for example: if this is set to one and num_mutations
 #   is set to one, then the breeder's first child
 #   would have 1 mutation, the second would have 2, etc
 num_add_mutations = 10
 
 
 [pressure]
-#Starting pressure
+#Starting pressure: Pressure is the opcount cut-off beyond which organisms are terminated
 start_pressure = 1000000
+#Penalty: This number of operations is added to an organism's opcount which exceeds pressure
 penalty = 10000
+#Buffer: Pressure is lowered automatically as organismal efficiency increases.  This number is the
+#        percent added to the worst successful organism's opcount to determine the new pressure.
 buffer = 50
 
 
@@ -41,14 +44,18 @@ buffer = 50
 gene_max = 10
 
 [array]
+#Size of the array which organisms will sort
 array_size = 8
 
 [probability]
-#As this increases the probabiliy of deleting a gene increases and adding genes decreases
+#As this increases the probability of deleting a gene increases and adding genes decreases
+#50% will randomly add and delete genes at the same rate
 weight = 33
 
 [name]
+#This name is used to create a directory for storing log files
 sim_name = "Mike's Random Mix"
 
 [logging]
+#log size in bytes
 logsize = 102400
