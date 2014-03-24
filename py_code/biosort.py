@@ -69,5 +69,5 @@ def Start(env):
 #If any are left (If the previous run finished, the logs should already)
 #be saved to a new directory, and as such should not be deleted.
 #It then creates the environment from the config file and runs the program.
-subprocess.call("rm ./log/log*", shell = True)
+#subprocess.call("rm ./log/log*", shell = True)
 Start(CreateEnvironment()) 

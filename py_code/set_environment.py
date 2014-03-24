@@ -32,6 +32,9 @@ class Environment:
 def CreateEnvironment():
 
     config = ConfigParser.RawConfigParser()
+    if not os.path.exists("./config.cfg"):
+        exit("Please copy the config.cfg.dist file to the main biosort directory as config.cfg")
+       
     config.read(['./config.cfg'])
 
     #generation
