@@ -4,28 +4,30 @@ import ConfigParser
 import os
 import subprocess
 
+#Class Environment defines an object containing a number of program parameters which can be passed to various
+#functions to conveniently access program configurations
 class Environment:
     def __init__(self, ge, ru, ra, br, ki, mu, ad, pr, ma, ar, pe, na, we, bu, ls):
-        self.gens = ge #number of gens to run
-        self.runs = ru #number of runs per gen
-        self.rands = ra #number of random things to run NYI
-        self.breeders = br #number of breeders
-        self.kids = ki #number of kids per breeder
-        self.mutations = mu #number of baseline mutations to run
-        self.adds = ad #number of mutations to add per kid
-        self.pressure = pr #current pressure (reduced when better organism comes along)
-        self.maxgenes = ma #number of genes maximum
-        self.arraysize = ar #size of array to be sorted
-        self.penalty = pe #penalty added if organism does not meet pressure
-        self.name = na #name of program run
-        self.weight = we #percentage chance to delete rahther than add when doing gene mutation
-        self.buff = (float(bu)/100.0)+1.0 #% of buffer to meet in order to reduce pressure (default 50)
-        self.gennumber = 0
+        self.gens = ge #Number of generations before the program terminates
+        self.runs = ru #Number of runs per generation
+        self.rands = ra #Number of permanently random organisms to maintain
+        self.breeders = br #Number of breeders
+        self.kids = ki #Number of kids per breeder
+        self.mutations = mu #Number of baseline mutations
+        self.adds = ad #Number of successive additional mutations for each child
+        self.pressure = pr #Current pressure (reduced when better organisms come along)
+        self.maxgenes = ma #Maximum number of genes per organism
+        self.arraysize = ar #Size of array to be sorted
+        self.penalty = pe #Penalty added if organism does not meet pressure
+        self.name = na #Name of program run
+        self.weight = we #Percentage chance to delete rather than add when doing gene mutation (50 is even chances)
+        self.buff = (float(bu)/100.0)+1.0 #Percentage of buffer to meet in order to reduce pressure (default 50)
+        self.gennumber = 0 #Counter to track generation number
         #logging functionality
-        self.lineage_counter = 1
-        self.lognum = 0
-        self.current_log_size = 0
-        self.logsize = ls 
+        self.lineage_counter = 1 #A unique stamp on a randomly generated organisms which becomes a breeder (and all future kids)
+        self.lognum = 0 #The current number to append to the present logfile (in case of logsize being exceeded)
+        self.current_log_size = 0 #Current logfile size
+        self.logsize = ls #Size of logfiles in bytes
 
 def CreateEnvironment():
 
@@ -67,25 +69,30 @@ def CreateEnvironment():
 
     env = Environment(num_generations, runs_per_generation, num_random, num_breeders, kids_per_breeder, num_mutations, num_add_mutations, start_pressure, gene_max, array_size, penalty, name, weight, buff, logsize)
 
+    #Creates habitat folder where organisms will exist
     if not os.path.isdir('./habitat'):
         os.mkdir('./habitat')
 
+    #Compiles object code
     subprocess.call('g++ -c -o ./habitat/biosort.o ./c_code/biosort.cpp -g', shell = True) 
 
+    #Creates appropriate directories for random organisms
     for rand in range(1, num_random+1):
         try:
             os.mkdir("./habitat/random"+str(rand))
         except:
             pass
 
+    #Creates appropriate directories for breeders
     for x in range(1, num_breeders+1):
         try:
             os.mkdir("./habitat/breeder" + str(x))
         except:
             pass
+        #Creates appropriate directories for progeny
         for y in range(1, kids_per_breeder+1):
             try:
                 os.mkdir("./habitat/breeder" + str(x)+ "/progeny" + str(y))
             except:
                 pass
-    return env
+    return env #Return the env object which can be passed for ease of access
