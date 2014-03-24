@@ -1,21 +1,6 @@
 from transcribe_c import writec
 from subprocess import Popen, PIPE, call
 
-
-#One to set up the file and compile it
-#The other to run it
-#This is so that we can run a setup loop in rungen and then a test loop
-#After that set up the loops in rungen and create a system to tell if they shoul be randomized or mutated from another organism
-
-
-
-
-
-
-
-
-
-
 def testgene(org, arraylist, env):
     #Creates organism.cpp file and compiles it
     writec("./habitat/" +org.folder, org, env.pressure)
