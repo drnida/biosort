@@ -11,7 +11,7 @@ def testgene(org, arraylist, env):
     #Runs an organism x times where x is the number of runs per generation
     for i in range(env.runs):
         array = ' '.join(str(x) for x in arraylist[i]) #Pulls array to sort from the given arraylist.
-        command = './habitat/' + org.folder + 'organism.out '+array #Command to run organism on array from the command line
+        command = './habitat/' + org.folder + 'organism.out '+str(env.pressure)+' '+array #Command to run organism on array from the command line
         fileout = Popen(command, stdin = PIPE, stdout = PIPE, stderr = PIPE, bufsize = 1, shell = True) #Retrieves the operations performed by the C++ before it ended 
       
         # Gets opcount and adds to total_opcount 

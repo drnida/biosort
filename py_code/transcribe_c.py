@@ -3,7 +3,7 @@ from create_gene import translategene
 #Creates and returns the string containign the header for an organism's C++ file
 def writeheader(genesequence, pressure): 
     header = '/*'+genesequence+'*/\n#include <iostream>\nusing namespace std;\n#include "../biosort.h"\nint Pressure = 0;\nextern int s;\nextern int v;\nint count=0;\nint * a;\nextern int i;\n'\
-            '\nint main(int argc,char ** argv)\n{\ns=argc-1;\na=new int[s];\nbuild(argv);' 
+            '\nint main(int argc,char ** argv)\n{\ns=argc-2;\na=new int[s];\nbuild(argv);' 
     return header 
  
 

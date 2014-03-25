@@ -112,16 +112,16 @@ def Run_Gen(folders, rfolders, env):
         
         for rand in range(env.rands):
             #call("g++ "+rfolders[rand].path+"*.cpp ./habitat/biosort.o -o "+rfolders[rand].path+"organism.out -g", shell = True)
-            command = rfolders[rand].path+"organism.out "+array
+            command = rfolders[rand].path+"organism.out "+str(env.pressure)+" "+array
             labtable[env.breeders+env.breeders*env.kids+rand] = Popen(command, stdin = PIPE, stdout = PIPE, stderr = PIPE, bufsize = 1, shell = True)
 
         for bnum in range(env.breeders):
             #call("g++ "+folders[bnum].path+"*.cpp ./habitat/biosort.o -o "+folders[bnum].path+"organism.out -g", shell = True) 
-            command = folders[bnum].path+"organism.out "+array
+            command = folders[bnum].path+"organism.out "+str(env.pressure)+" "+array
             labtable[bnum] = Popen(command, stdin = PIPE, stdout = PIPE, stderr = PIPE, bufsize = 1, shell = True)
             for pnum in range(env.kids):
                 #call("g++ "+folders[bnum].progeny[pnum].path+"*.cpp ./habitat/biosort.o -o "+folders[bnum].progeny[pnum].path+"organism.out -g", shell = True) 
-                command = folders[bnum].progeny[pnum].path+"organism.out "+array
+                command = folders[bnum].progeny[pnum].path+"organism.out "+str(env.pressure)+" "+array
                 #                               bnum-1  pnum-1
                 labtable[env.breeders+env.kids*(bnum)+(pnum)] = Popen(command, stdin = PIPE, stdout = PIPE, stderr = PIPE, bufsize = 1, shell = True)
 
