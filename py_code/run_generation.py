@@ -44,7 +44,8 @@ def make_kid(env, folder, orgfrom, kidnum, breedernum):
     org.lineage_id = orgfrom.lineage_id
     org.is_primeval = False # Did not come from random, not primeval
     folder.org = org # place org in folder
-    mutate(folder.org, env.mutations+env.adds*kidnum, env.weight, env.pressure, env.maxgenes) # mutate the gene and write mutation to file
+    mutate(folder.org, env.mutations+env.adds*kidnum, env.weight, env.maxgenes) # mutate the gene and write mutation to file
+    writec(folder.path, folder.org)
     call('g++ '+ folder.path + '*.cpp ./habitat/biosort.o -o ' + folder.path + 'organism.out -g', shell = True) 
     
 
