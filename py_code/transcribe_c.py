@@ -1,15 +1,15 @@
 from create_gene import translategene  
 
 #Creates and returns the string containign the header for an organism's C++ file
-def writeheader(genesequence, pressure): 
+def writeheader(genesequence): 
     header = '/*'+genesequence+'*/\n#include <iostream>\nusing namespace std;\n#include "../biosort.h"\nint Pressure = 0;\nextern int s;\nextern int v;\nint count=0;\nint * a;\nextern int i;\n'\
             '\nint main(int argc,char ** argv)\n{\ns=argc-2;\na=new int[s];\nbuild(argv);' 
     return header 
  
 
 #Creates the string for the whole organism C++ file then writes it out
-def writebody(fileout, genesequence, pressure): 
-    writeout = writeheader(genesequence, pressure) #writeout holds the string to write to the file
+def writebody(fileout, genesequence): 
+    writeout = writeheader(genesequence) #writeout holds the string to write to the file
     writeout += 'do{' 
     tok = translategene(genesequence) #tok holds the list of tokens for the mutable fields of the file
     num = len(tok)/19 #num is the amount of genes in the sequence 
@@ -32,10 +32,10 @@ def writebody(fileout, genesequence, pressure):
     return 
 
 #Driver for writing out the file
-def writec(folder, org, pressure):
+def writec(folder, org):
     filename = folder+'organism.cpp' 
     fileout = open(filename, 'w+') 
-    writebody(fileout, org.genesequence, pressure) 
+    writebody(fileout, org.genesequence) 
     fileout.close() 
     return
 
