@@ -3,7 +3,14 @@
 import random
 from organism import Organism
 
-#array index mods to 1
+
+#These are the dictionaries used to create and parse gene sequences
+#Language of Gene Sequence:
+#S -> G+
+#G -> 'g'<d1><d4><d7><d2><d3><d4><d7><d5><d2><d3><d4><d7><d6><d3><d4><d7>
+
+#Comments represent the what index % 17 maps to for each dictionary
+#1
 d1 = {'0':'  0', '1':'  1', '2':'  2', '3':'  3', '4':'  4', '5':'  5', '6':'  6', '7':'  7', '8':'  8', '9':'  9', 'r':'r()'}
 #4,9
 d2 = {'p':' (', 'b':'a['}
@@ -19,6 +26,8 @@ d6 = {'w':'w', 'u':'u', 'd':'d'}
 d7 = {'1':'  1', '2':'  2', '3':'  3', '4':'  4', '5':'  5', '6':'  6', '7':'  7', '8':'  8', '9':'  9', 'R':'R()'}
 
 
+#Used to point mutate a given index, the num is the index mod 17 (does not have a
+#case for 0 because the mutation for 'g' is handled in a different way
 def get_replacement(num):
     if num == 1:
         temp = random.choice(d1.keys())
@@ -44,7 +53,7 @@ def get_replacement(num):
 
 
 
-# Takes in a gene sequence and returns an array of tokens with the opcount for one loop as the last token
+# Takes in a gene sequence and returns a list of tokens with the opcount for one loop as the last token
 def translategene(astring):
     newstring = ''
     count = 0
@@ -85,6 +94,7 @@ def translategene(astring):
     tokens = newstring.split(';')
     return tokens
 
+#Creates a randomized single gene using the dictionary rules
 def roll4d6():
     genesequence = ''
     for i in range(0, 17):
@@ -109,7 +119,7 @@ def roll4d6():
             genesequence += random.choice(d6.keys())
     return genesequence
 
-
+#Makes a gene sequence, num genes long
 def makegene(num):
     newstring = ''
     for i in range(num):
