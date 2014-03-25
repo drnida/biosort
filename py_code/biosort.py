@@ -8,6 +8,7 @@ from set_environment import CreateEnvironment
 import subprocess
 import time 
 import sys
+import os
 
 #Function that takes in the environment given by the config file and begins running the
 #program. First it finds a single organism that sorts in the given pressure threshold
@@ -55,10 +56,16 @@ def Start(env):
                                                #logging purposes. Logging cannot be done until a 
                                                #certain point in the Setup for the next gen.
     #Loop to run all generations requested
-    for x in range(env.gens):
-        Setup_Gen(folders, rfolders, arraylist, env)
-        arraylist = Run_Gen(folders, rfolders, env)
-
+    try:
+        for x in range(env.gens):
+            Setup_Gen(folders, rfolders, arraylist, env)
+            arraylist = Run_Gen(folders, rfolders, env)
+    except:
+        if not os.path.exists('./logs/'):
+            os.makedirs('./logs/')
+        log = open("./logs/log-terminated.txt", 'a')
+        log.write(''.join(env.loglist))
+        log.close()
     #Once program is finished, all log files are placed into a new subfolder named using
     #the run name and a timestamp. This folder contains all the logs and the config file
     #used for the run.
