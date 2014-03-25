@@ -5,6 +5,7 @@ extern int count; //Current total opcount of this program
 int s; //Size of the array to be sorted
 extern int * a; //The array to be sorted
 int i = 0; //The current index of the array being considered
+extern int Pressure;
 
 //Swaps a[i] with a[to_index]
 //Please adjust count if you edit this function.
