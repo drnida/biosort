@@ -193,3 +193,5 @@ void build(char** argv)
     for(int i = 0; i < s; ++i)
     {
         a[i] = atoi(argv[i + 2]);
+    }
+}
