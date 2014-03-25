@@ -3,7 +3,7 @@ from subprocess import Popen, PIPE, call
 
 def testgene(org, arraylist, env):
     #Creates organism.cpp file and compiles it
-    writec("./habitat/" +org.folder, org, env.pressure)
+    writec("./habitat/" +org.folder, org) 
     call('g++ ./habitat/' + org.folder + '*.cpp ./habitat/biosort.o -o ./habitat/' + org.folder + 'organism.out -g', shell = True) 
     
 
