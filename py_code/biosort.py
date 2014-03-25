@@ -7,7 +7,7 @@ import random
 from set_environment import CreateEnvironment
 import subprocess
 import time 
- 
+import sys
 
 #Function that takes in the environment given by the config file and begins running the
 #program. First it finds a single organism that sorts in the given pressure threshold
@@ -17,10 +17,14 @@ import time
 def Start(env):
     ops = 0 #Counter for operations performed by organism before completing
     org = '' #Variable to hold the first organism
+    random_counter = 1 #Counts randoms until a sorter is found
 
     #Creates an organism and runs it, repeats until an organism is found
     #which sorts within the given pressure threshold.
     while ops not in range(1, env.pressure+1):
+        sys.stdout.write("Attempting to find first sorter: Attempt %i\r" %random_counter)
+        sys.stdout.flush()
+        random_counter += 1
         org = makegene(random.randint(1, env.maxgenes+1))
         org.folder = "breeder1/"
         arraylist = []#List populated with a number of random arrays of ints of the size
@@ -33,6 +37,9 @@ def Start(env):
         ops = org.avgops
 
     #Once an organism that sorts under pressure is found, program begins generation 1.
+
+    print "\nFirst successful sorter found.  Beginning first generation."
+
     org.lineage_id = env.lineage_counter#Lineage ID is the number given to any organism if it was
                                         #produced randomly and earned a breeder spot. This lets the
                                         #log file trace back where a specific organism came from
