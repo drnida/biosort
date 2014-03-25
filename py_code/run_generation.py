@@ -251,13 +251,16 @@ def Setup_Gen(folders, rfolders, arraylist, env):
       # rfolders[rand].org.logloc = "R_"+str(rand+1)
      
    for bnum in range(env.breeders):  
-            folders[bnum].org = labtable[bnum]
-            folders[bnum].org.folder = folders[bnum].path
-            folders[bnum].org.logloc = "B_"+str(bnum+1)
+        folders[bnum].org = labtable[bnum]
+        folders[bnum].org.folder = folders[bnum].path
+        folders[bnum].org.logloc = "B_"+str(bnum+1)
+        writec(folders[bnum].path, folders[bnum].org)
+        call("g++ "+folders[bnum].path+"*.cpp ./habitat/biosort.o -o "+folders[bnum].path+"organism.out -g", shell = True) 
+        
    #Spawn kids
    for bnum in range(env.breeders):
        if folders[bnum].org.is_primeval == False:
-            for pnum in range(env.kids):
+           for pnum in range(env.kids):
                 make_kid(env, folders[bnum].progeny[pnum], folders[bnum].org, bnum, pnum)
                 #folders[bnum].progeny[pnum].org = Organism(folders[bnum].org.genesequence)
                 #folders[bnum].progeny[pnum].org.folder = folders[bnum].progeny[pnum].path
