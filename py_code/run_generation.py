@@ -200,14 +200,15 @@ def Log_Gen(folders, rfolders, arrays, env):
     
     #if adding this log would make log file too big
     if len(logout) + env.current_log_size >= env.logsize:
+        log_file = './logs/log' + str(env.lognum) + '.txt' 
+        if not os.path.exists('./logs/'):
+            os.makedirs('./logs/')
+        log = open(log_file, 'a')
         env.current_log_size = 0 #then reset logfile size
-        env.lognum += 1 #then increment logfile
-    log_file = './logs/log' + str(env.lognum) + '.txt' 
-    if not os.path.exists('./logs/'):
-        os.makedirs('./logs/')
-    log = open(log_file, 'a')
-    log.write(logout)
-    log.close() 
+        log.write(''.join(env.loglist)) #write the log
+        env.lognum += 1 #increment logfile
+        log.close() 
+    env.loglist.append(logout)
     env.current_log_size += len(logout) #fix logfile size
     sys.stdout.write("Generation: %s\r" % env.gennumber)
     sys.stdout.flush()

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #Starts python program and cleans up after it
 
-if [ -e ./logs/log* ]
+if [ -e "./logs/log0.txt" ]
 then
     while true; do
 		  read -p "Do you wish do delete pre-existing log files? " response

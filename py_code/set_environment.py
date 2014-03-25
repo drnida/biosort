@@ -23,11 +23,12 @@ class Environment:
         self.weight = we #Percentage chance to delete rather than add when doing gene mutation (50 is even chances)
         self.buff = (float(bu)/100.0)+1.0 #Percentage of buffer to meet in order to reduce pressure (default 50)
         self.gennumber = 0 #Counter to track generation number
-        #logging functionality
         self.lineage_counter = 1 #A unique stamp on a randomly generated organisms which becomes a breeder (and all future kids)
+        #logging functionality
         self.lognum = 0 #The current number to append to the present logfile (in case of logsize being exceeded)
         self.current_log_size = 0 #Current logfile size
         self.logsize = ls #Size of logfiles in bytes
+        self.loglist = []
 
 def CreateEnvironment():
 
