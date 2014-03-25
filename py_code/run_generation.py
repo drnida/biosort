@@ -46,8 +46,10 @@ def make_kid(env, folder, orgfrom, kidnum, breedernum):
     folder.org = org # place org in folder
     mutate(folder.org, env.mutations+env.adds*kidnum, env.weight, env.maxgenes) # mutate the gene and write mutation to file
     writec(folder.path, folder.org)
-    call('g++ '+ folder.path + '*.cpp ./habitat/biosort.o -o ' + folder.path + 'organism.out -g', shell = True) 
-    
+    if env.debug == True:
+        call('g++ '+ folder.path + '*.cpp ./habitat/biosort.o -o ' + folder.path + 'organism.out -g -O0', shell = True) 
+    else:
+        call('g++ '+ folder.path + '*.cpp ./habitat/biosort.o -o ' + folder.path + 'organism.out -O0', shell = True) 
 
 #Makes a pure random organism, folder is the folder into which the random will be placed, num
 #is the random's folder index
@@ -58,7 +60,10 @@ def make_random(env, folder, num):
     org.is_primeval = True
     folder.org = org
     writec(folder.path, folder.org)
-    call('g++ '+folder.path+'*.cpp ./habitat/biosort.o -o '+folder.path+'organism.out -g', shell = True)
+    if env.debug == True:
+        call('g++ '+folder.path+'*.cpp ./habitat/biosort.o -o '+folder.path+'organism.out -g -O0', shell = True)
+    else:
+        call('g++ '+ folder.path + '*.cpp ./habitat/biosort.o -o ' + folder.path + 'organism.out -O0', shell = True) 
 
 #Makes a random breeder, folder corresponds to the breeder folder, num is the breeder folder index
 def make_random_breeder(env, folder, num):
@@ -68,7 +73,10 @@ def make_random_breeder(env, folder, num):
     org.logloc = "B_"+str(num) # set log output for location
     folder.org = org
     writec(folder.path, folder.org) # write out the file
-    call('g++ '+ folder.path + '*.cpp ./habitat/biosort.o -o ' + folder.path + 'organism.out -g', shell = True)
+    if env.debug == True:
+        call('g++ '+ folder.path + '*.cpp ./habitat/biosort.o -o ' + folder.path + 'organism.out -g -O0', shell = True)
+    else:
+        call('g++ '+ folder.path + '*.cpp ./habitat/biosort.o -o ' + folder.path + 'organism.out -O0', shell = True)
     call('cp ./habitat/biosort.h ./habitat/breeder'+str(num)+'/', shell=True) 
 
 #Makes a random progeny, folder is the folder into which the progeny is placed, num is the
@@ -80,9 +88,10 @@ def make_random_kid(env, folder, num, parent_num):
     org.is_primeval = True # came from random, so its primeval
     folder.org = org # add the org to the folder
     writec(folder.path, folder.org) # write out the file
-    call('g++ '+ folder.path + '*.cpp ./habitat/biosort.o -o ' + folder.path + 'organism.out -g', shell = True) 
-
-
+    if env.debug == True:
+        call('g++ '+ folder.path + '*.cpp ./habitat/biosort.o -o ' + folder.path + 'organism.out -g -O0', shell = True) 
+    else:
+        call('g++ '+ folder.path + '*.cpp ./habitat/biosort.o -o ' + folder.path + 'organism.out -O0', shell = True) 
 
 
 #Takes in environment and first successful organism, creates the first generation's
@@ -248,40 +257,23 @@ def Setup_Gen(folders, rfolders, arraylist, env):
    #spawn randoms
    for rand in range(env.rands):
        make_random(env, rfolders[rand], rand)
-     #  rfolders[rand].org = makegene(random.randint(1, env.maxgenes+1))
-      # rfolders[rand].org.folder = rfolders[rand].path
-      # rfolders[rand].org.logloc = "R_"+str(rand+1)
      
    for bnum in range(env.breeders):  
         folders[bnum].org = labtable[bnum]
         folders[bnum].org.folder = folders[bnum].path
         folders[bnum].org.logloc = "B_"+str(bnum+1)
         writec(folders[bnum].path, folders[bnum].org)
-        call("g++ "+folders[bnum].path+"*.cpp ./habitat/biosort.o -o "+folders[bnum].path+"organism.out -g", shell = True) 
-        
+        if env.debug == True:
+            call("g++ "+folders[bnum].path+"*.cpp ./habitat/biosort.o -o "+folders[bnum].path+"organism.out -g -O0", shell = True) 
+        else:
+            call("g++ "+folders[bnum].path+"*.cpp ./habitat/biosort.o -o "+folders[bnum].path+"organism.out -O0", shell = True) 
+
    #Spawn kids
    for bnum in range(env.breeders):
        if folders[bnum].org.is_primeval == False:
            for pnum in range(env.kids):
                 make_kid(env, folders[bnum].progeny[pnum], folders[bnum].org, bnum, pnum)
-                #folders[bnum].progeny[pnum].org = Organism(folders[bnum].org.genesequence)
-                #folders[bnum].progeny[pnum].org.folder = folders[bnum].progeny[pnum].path
-                #folders[bnum].progeny[pnum].org.logloc = "P_"+str(pnum+1)+"_B_"+str(bnum+1)
-                #copy(folders[bnum].path+"organism.cpp", folders[bnum].progeny[pnum].path)
-                #mutate(folders[bnum].progeny[pnum].org, env.mutations+env.adds*x, env.weight, env.pressure, env.maxgenes) # mutate the gene and write mutation to file
-                #folders[bnum].progeny[pnum].org.lineage_id = folders[bnum].org.lineage_id
-                #folders[bnum].progeny[pnum].org.is_primeval = False
        else:
            make_random_breeder(env, folders[bnum], bnum)
-           #folders[bnum].org = makegene(random.randint(1, env.maxgenes+1))
-           #folders[bnum].org.folder = folders[bnum].path
-           #folders[bnum].org.logloc = "B_"+str(bnum+1)
            for pnum in range(env.kids):
                 make_random_kid(env, folders[bnum].progeny[pnum], pnum, bnum)
-                #folders[bnum].progeny[pnum].org = makegene(random.randint(1, env.maxgenes+1))
-                #folders[bnum].progeny[pnum].org.folder = folders[bnum].progeny[pnum].path
-                #folders[bnum].progeny[pnum].org.logloc = "P_"+str(pnum+1)+"_B_"+str(bnum+1)
-               
-   #for elem in labtable:
-   #        writec(elem.folder, elem)
-   #        call("g++ "+elem.folder+"*.cpp ./habitat/biosort.o -o "+elem.folder+"organism.out -g", shell = True) 

@@ -7,7 +7,7 @@ import subprocess
 #Class Environment defines an object containing a number of program parameters which can be passed to various
 #functions to conveniently access program configurations
 class Environment:
-    def __init__(self, ge, ru, ra, br, ki, mu, ad, pr, ma, ar, pe, na, we, bu, ls):
+    def __init__(self, ge, ru, ra, br, ki, mu, ad, pr, ma, ar, pe, na, we, bu, ls, de):
         self.gens = ge #Number of generations before the program terminates
         self.runs = ru #Number of runs per generation
         self.rands = ra #Number of permanently random organisms to maintain
@@ -28,7 +28,8 @@ class Environment:
         self.lognum = 0 #The current number to append to the present logfile (in case of logsize being exceeded)
         self.current_log_size = 0 #Current logfile size
         self.logsize = ls #Size of logfiles in bytes
-        self.loglist = []
+        self.loglist = [] #To hold the log data and reduce number of writes
+        self.debug = de #Sets weather to add the -g flag to the C++ compilation, True sets flag, False does not
 
 def CreateEnvironment():
 
@@ -66,12 +67,15 @@ def CreateEnvironment():
     name = config.get('name', 'sim_name')
 
     #probability
-    weight = config.getint('probability', 'weight');
+    weight = config.getint('probability', 'weight')
 
     #logging
-    logsize = config.getint('logging', 'logsize');
+    logsize = config.getint('logging', 'logsize')
 
-    env = Environment(num_generations, runs_per_generation, num_random, num_breeders, kids_per_breeder, num_mutations, num_add_mutations, start_pressure, gene_max, array_size, penalty, name, weight, buff, logsize)
+    #compiling
+    debug = config.getboolean('compiling', 'debug')
+
+    env = Environment(num_generations, runs_per_generation, num_random, num_breeders, kids_per_breeder, num_mutations, num_add_mutations, start_pressure, gene_max, array_size, penalty, name, weight, buff, logsize, debug)
 
     #Creates habitat folder where organisms will exist
     if not os.path.isdir('./habitat'):
