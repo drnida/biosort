@@ -188,8 +188,9 @@ bool is_sorted()
 //Count does not need to be changed in this function
 void build(char** argv)
 {
-    for(int i = 1; i < s + 1; ++i)
+    Pressure = argv[1]
+    for(int i = 0; i < s; ++i)
     {
-        a[i - 1] = atoi(argv[i]);
+        a[i] = atoi(argv[i + 2]);
     }
 }
