@@ -59,3 +59,6 @@ sim_name = "Mike's Random Mix"
 [logging]
 #log size in bytes
 logsize = 102400
+
+[compiling]
+debug = False

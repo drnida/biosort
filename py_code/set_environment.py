@@ -29,7 +29,7 @@ class Environment:
         self.current_log_size = 0 #Current logfile size
         self.logsize = ls #Size of logfiles in bytes
         self.loglist = [] #To hold the log data and reduce number of writes
-        self.debug = de #Sets weather to add the -g flag to the C++ compilation, True sets flag, False does not
+        self.debug = de #Sets whether to add the -g flag to the C++ compilation, True sets flag, False does not
 
 def CreateEnvironment():
 
