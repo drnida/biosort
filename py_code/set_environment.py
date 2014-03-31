@@ -3,6 +3,7 @@
 import ConfigParser
 import os
 import subprocess
+import time
 
 #Class Environment defines an object containing a number of program parameters which can be passed to various
 #functions to conveniently access program configurations
@@ -92,15 +93,19 @@ def CreateEnvironment():
             pass
 
     #Creates appropriate directories for breeders
-    for x in range(1, num_breeders+1):
+    for bnum in range(1, num_breeders+1):
         try:
-            os.mkdir("./habitat/breeder" + str(x))
+            os.mkdir("./habitat/breeder" + str(bnum))
+        except:
+            pass
+        try:
+            os.mkdir("./habitat/temp" + str(bnum))
         except:
             pass
         #Creates appropriate directories for progeny
-        for y in range(1, kids_per_breeder+1):
+        for pnum in range(1, kids_per_breeder+1):
             try:
-                os.mkdir("./habitat/breeder" + str(x)+ "/progeny" + str(y))
+                os.mkdir("./habitat/breeder" + str(bnum)+ "/progeny" + str(pnum))
             except:
                 pass
     return env #Return the env object which can be passed for ease of access

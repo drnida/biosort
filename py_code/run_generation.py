@@ -77,7 +77,7 @@ def make_random_breeder(env, folder, num):
         call('g++ '+ folder.path + '*.cpp ./habitat/biosort.o -o ' + folder.path + 'organism.out -g -O0', shell = True)
     else:
         call('g++ '+ folder.path + '*.cpp ./habitat/biosort.o -o ' + folder.path + 'organism.out -O0', shell = True)
-    call('cp ./habitat/biosort.h ./habitat/breeder'+str(num)+'/', shell=True) 
+    copy('./habitat/biosort.h', './habitat/breeder'+str(num))
 
 #Makes a random progeny, folder is the folder into which the progeny is placed, num is the
 #folder index for that folder, parent_num is the parent's folder index
@@ -107,7 +107,7 @@ def Prep_First_Generation(org, env):
     org.folder = "./habitat/breeder1/"
     org.is_primeval = False
     folders.append(bfolder("./habitat/breeder1/", env.kids, org))
-    call('cp ./habitat/biosort.h ./habitat/breeder1/biosort.h', shell=True)
+    copy('./habitat/biosort.h', './habitat/breeder1/')
 
     #Creates random files
     for rand in range(env.rands):
@@ -125,7 +125,7 @@ def Prep_First_Generation(org, env):
     #Spawn kids off winner
     for kid in range(0, env.kids):
         try:
-            call("cp " +folders[0].path+"organism.cpp "+ folders[0].progeny[kid].path, shell=True) # copy the gene from its parent to the kid
+            copy(folders[0].path+"organism.cpp", folders[0].progeny[kid].path) # copy the gene from its parent to the kid
         except:
             print "Error copying first gen"
         make_kid(env, folders[0].progeny[kid], folders[0].org, kid, 0)
@@ -224,56 +224,68 @@ def Log_Gen(folders, rfolders, arrays, env):
     sys.stdout.flush()
 
 
-def Setup_Gen(folders, rfolders, arraylist, env):
-   #Sort by avg ops
-   labtable = []
-   for bnum in range(env.breeders):
-       labtable.append(folders[bnum].org)
-       for pnum in range(env.kids):
-           labtable.append(folders[bnum].progeny[pnum].org)
-   for rand in range(env.rands):
-       labtable.append(rfolders[rand].org)
+def move_to_breeder(src, bnum):
+    call('mv '+src+'organism.cpp habitat/breeder'+str(bnum+1)+'/', shell = True)
+    call('mv '+src+'organism.out habitat/breeder'+str(bnum+1)+'/', shell = True)
 
-   labtable.sort(key=lambda subject: env.pressure if subject.avgops> env.pressure else subject.avgops, reverse = False)
+
+def Setup_Gen(folders, rfolders, arraylist, env):
+    #Sort by avg ops
+    labtable = []
+    for bnum in range(env.breeders):
+        labtable.append(folders[bnum].org)
+        call('mv '+folders[bnum].path+'organism.cpp habitat/temp'+str(bnum+1)+'/', shell = True)
+        call('mv '+folders[bnum].path+'organism.out habitat/temp'+str(bnum+1)+'/', shell = True)
+        for pnum in range(env.kids):
+            labtable.append(folders[bnum].progeny[pnum].org)
+    for rand in range(env.rands):
+        labtable.append(rfolders[rand].org)
+
+    labtable.sort(key=lambda subject: env.pressure if subject.avgops> env.pressure else subject.avgops, reverse = False)
 
  
-   #set primeval status and call log function
-   for x in range(env.breeders):
-       if labtable[x].avgops < env.pressure:
-           if labtable[x].is_primeval == True:
-               labtable[x].is_primeval = False
-               labtable[x].lineage_id = env.lineage_counter
-               env.lineage_counter += 1
-       else:
-           break
-   Log_Gen(folders, rfolders, arraylist, env)
-   env.gennumber += 1
+    #set primeval status and call log function
+    for x in range(env.breeders):
+        if labtable[x].avgops < env.pressure:
+            if labtable[x].is_primeval == True:
+                labtable[x].is_primeval = False
+                labtable[x].lineage_id = env.lineage_counter
+                env.lineage_counter += 1
+        else:
+            break
+    Log_Gen(folders, rfolders, arraylist, env)
+    env.gennumber += 1
    
-   #Set new pressure
-   num = labtable[env.breeders-1].avgops*env.buff
-   if num < env.pressure:
-       env.pressure = num
-   #Put orgs in correct folders for breeders
-   #spawn randoms
-   for rand in range(env.rands):
-       make_random(env, rfolders[rand], rand)
-     
-   for bnum in range(env.breeders):  
+    #Set new pressure
+    num = labtable[env.breeders-1].avgops*env.buff
+    if num < env.pressure:
+        env.pressure = num
+    #Put orgs in correct folders for breeders
+    
+    for bnum in range(env.breeders):  
+        if labtable[bnum].logloc[0] == 'B':
+            move_to_breeder('./habitat/temp'+labtable[bnum].logloc[2]+'/', bnum)
+        else:
+            move_to_breeder(labtable[bnum].folder, bnum)
         folders[bnum].org = labtable[bnum]
         folders[bnum].org.folder = folders[bnum].path
         folders[bnum].org.logloc = "B_"+str(bnum+1)
-        writec(folders[bnum].path, folders[bnum].org)
-        if env.debug == True:
-            call("g++ "+folders[bnum].path+"*.cpp ./habitat/biosort.o -o "+folders[bnum].path+"organism.out -g -O0", shell = True) 
-        else:
-            call("g++ "+folders[bnum].path+"*.cpp ./habitat/biosort.o -o "+folders[bnum].path+"organism.out -O0", shell = True) 
 
-   #Spawn kids
-   for bnum in range(env.breeders):
-       if folders[bnum].org.is_primeval == False:
-           for pnum in range(env.kids):
-                make_kid(env, folders[bnum].progeny[pnum], folders[bnum].org, bnum, pnum)
-       else:
-           make_random_breeder(env, folders[bnum], bnum)
-           for pnum in range(env.kids):
+        #writec(folders[bnum].path, folders[bnum].org)
+        #if env.debug == True:
+        #    call("g++ "+folders[bnum].path+"*.cpp ./habitat/biosort.o -o "+folders[bnum].path+"organism.out -g -O0", shell = True) 
+        #else:
+        #    call("g++ "+folders[bnum].path+"*.cpp ./habitat/biosort.o -o "+folders[bnum].path+"organism.out -O0", shell = True) 
+    #spawn randoms
+    for rand in range(env.rands):
+        make_random(env, rfolders[rand], rand)
+    
+    #Spawn kids
+    for bnum in range(env.breeders):
+        if folders[bnum].org.is_primeval == False:
+            for pnum in range(env.kids):
+                make_kid(env, folders[bnum].progeny[pnum], folders[bnum].org, pnum, bnum)
+        else:
+            make_random_breeder(env, folders[bnum], bnum)
+            for pnum in range(env.kids):
                 make_random_kid(env, folders[bnum].progeny[pnum], pnum, bnum)
